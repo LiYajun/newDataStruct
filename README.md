@@ -1,0 +1,2 @@
+# newDataStruct
+data struct pricatice
