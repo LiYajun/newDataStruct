@@ -1,16 +1,20 @@
 #ifndef _LLREF_H_
 #define _LLREF_H_
+#include "LLTypes.h"
 
-typedef struct
+
+typedef struct _LLRef
 {
-	int retainCount;
+	sint  retainCount;
+    void  (*dealloc)(void * pRef);
 	//void * me;
 }LLRef;
-
-extern LLRef * LLRefCreate(void);
-extern void LLRefInit(void * ptr);
-extern int LLRefRelease(void * ptr);
-extern int LLRefRetain(void * ptr);
+typedef void  (*deallocFun)(void * pRef);
+typedef void  * LLRefPtr;
+extern  LLRef * LLRefCreate(void);
+extern  void    LLRefInit(void * ptr, deallocFun dallocFunPtr);
+extern  sint    LLRefRelease(void * ptr);
+extern  sint    LLRefRetain(void * ptr);
 
 #endif // !_LLREF_H_
 
