@@ -24,5 +24,13 @@ typedef struct _LLArray{
     LLRefPtr *    objects;            /*所有元素       */
 }LLArray;
 
+//添加一个元素
+
+//删除一个元素
+
+//获取一个元素
+
+//获取一组元素
+
 
 #endif /* LLArray_h */

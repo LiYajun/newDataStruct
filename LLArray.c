@@ -14,12 +14,8 @@
 
 static void LLArrayDealloc(void * ptr);
 
-LLArray * LLArrayCreate(void) {
-    
-    LLArray* p = NULL;
- 
-    
-    return p;
+LLArray * LLArrayCreate(void) { 
+	return LLArrayCreateByCap(INIT_CAP);
 }
 LLArray * LLArrayCreateByCap(uint initCap)
 {
