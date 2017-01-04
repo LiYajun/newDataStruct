@@ -9,9 +9,11 @@
 #ifndef LLArray_h
 #define LLArray_h
 
+
 #include <stdio.h>
 #include "LLTypes.h"
 #include "LLRef.h"
+
 
 typedef struct _LLArray{
     LLRef      ref;                /*引用计数*/
@@ -21,5 +23,6 @@ typedef struct _LLArray{
     uint       tailIndex;          /*尾部的索引     */
     LLRefPtr *    objects;            /*所有元素       */
 }LLArray;
+
 
 #endif /* LLArray_h */

@@ -22,7 +22,6 @@ typedef signed   long       slong;
 typedef int                 ElementType;
 
 
-
 typedef enum {
     NO  = 0,
     YES = 1,
@@ -34,6 +33,9 @@ typedef enum {
     big  =  2,
     small = 3,
 }obj_order;
+
+
 static const  uint No_Find = (uint)-1;
+
 
 #endif /*  LLTypes_h */
