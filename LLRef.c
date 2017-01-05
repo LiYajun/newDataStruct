@@ -61,5 +61,5 @@ extern sint LLRefRetain(void * ptr)
 //释放前的的回调函数
 static void LLRefDealloc(void * ptr)
 {
-    fprintf(stdout, "LLRefDealloc called!");
+    fprintf(stdout, "LLRefDealloc called!\n");
 }
