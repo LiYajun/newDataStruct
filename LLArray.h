@@ -24,12 +24,17 @@ typedef struct _LLArray{
     LLRefPtr *    objects;            /*所有元素       */
 }LLArray;
 
+extern LLArray * LLArrayCreateByCap(sint initCap);
+extern LLArray * LLArrayCreate(void);
+
+
+
 //添加一个元素
-
+extern void LLArrayInsertAt(LLArray * const p, LLRefPtr anObject, uint index);
 //删除一个元素
-
+extern BOOL LLArrayRemoveAt(LLArray * const p, uint index);
 //获取一个元素
-
+extern LLRefPtr LLArrayGetObjectAt(LLArray* const p, uint index);
 //获取一组元素
 
 

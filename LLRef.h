@@ -11,6 +11,8 @@ typedef struct _LLRef
 }LLRef;
 typedef void  (*deallocFun)(void * pRef);
 typedef void  * LLRefPtr;
+
+
 extern  LLRef * LLRefCreate(void);
 extern  void    LLRefInit(void * ptr, deallocFun dallocFunPtr);
 extern  sint    LLRefRelease(void * ptr);

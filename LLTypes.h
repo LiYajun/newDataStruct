@@ -9,7 +9,7 @@
 #ifndef LLTypes_h
 #define LLTypes_h
 
-//typedef void *              object_p;
+typedef void *              object_p;
 
 typedef unsigned char       uint8;
 typedef signed   char       int8;
