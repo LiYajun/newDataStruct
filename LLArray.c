@@ -52,7 +52,10 @@ extern LLArray * LLArrayCreateByCap(sint initCap)
     return p;
 
 }
-
+extern void LLArrayAddObject( LLArray* const p, LLRefPtr anObjct )
+{
+    LLArrayInsertAt(p, anObjct, p->objSize);
+}
 /*---------------------------------------------*\
  插入一个元素
 \*---------------------------------------------*/
@@ -75,21 +78,28 @@ extern void LLArrayInsertAt( LLArray * const p, LLRefPtr anObject, uint index)
     //获取实际的插入位置
     realIndex = (p->headIndex+index)% p->maxCap;
     
-    if(index <= p->objSize/2) {
+    if(index < (p->objSize+1)/2) {
         realIndex = LLArrayGetPreIndex(p, realIndex); //实际的位置
         LLArrayForward(p, index, p->headIndex);
         p->objects[realIndex] = object;
-        
         p->headIndex  = LLArrayGetPreIndex(p, p->headIndex);
     }else {
-        LLArrayBackward(p, p->objSize-index, p->tailIndex);
+        uint tailIndex =  LLArrayGetPreIndex(p, p->tailNextIndex);
+        LLArrayBackward(p, p->objSize-index, tailIndex);
         p->objects[realIndex] = object;
-        
-        p->tailIndex = LLArrayGetNextIndex(p, p->tailIndex);
+        p->tailNextIndex = LLArrayGetNextIndex(p, p->tailNextIndex);
     }
     LLRefRetain(object);
     
     p->objSize++;
+    printf("p info:\n"
+           "p->objSize:         %d\n"
+           "p->headIndex:       %d\n"
+           "p->tailNextIndex:   %d\n",
+            p->objSize,
+            p->headIndex,
+            p->tailNextIndex
+            );
 }
 /*---------------------------------------------*\
  移除一个对象
@@ -106,17 +116,25 @@ extern BOOL LLArrayRemoveAt(LLArray * const p, uint index)
     }
     realIndex = (p->headIndex+index)% p->maxCap;
     obj = p->objects[realIndex];
-    if(index <= p->objSize/2) {
+    if(index <  (p->objSize+1)/2) { //删除的元素在前半段，
         realIndex = LLArrayGetPreIndex(p, realIndex);
         LLArrayBackward(p, index, realIndex);
         p->headIndex = LLArrayGetNextIndex(p, p->headIndex);
     }else {
         realIndex = LLArrayGetNextIndex(p, realIndex);
-        LLArrayForward(p, index, realIndex);
-        p->tailIndex = LLArrayGetPreIndex(p, p->tailIndex);
+        LLArrayForward(p, p->objSize-index-1, realIndex);
+        p->tailNextIndex = LLArrayGetPreIndex(p, p->tailNextIndex);
     }
     LLRefRelease(obj);
     p->objSize--;
+    printf("p info:\n"
+           "p->objSize:         %d\n"
+           "p->headIndex:       %d\n"
+           "p->tailNextIndex:   %d\n",
+           p->objSize,
+           p->headIndex,
+           p->tailNextIndex
+           );
     return YES;
 }
 /*---------------------------------------------*\
@@ -141,7 +159,7 @@ static void LLArrayInit(LLArray * const ptr, sint cap)
     ptr->maxCap     = cap;
     ptr->objSize    = 0;
     ptr->headIndex  = 0;
-    ptr->tailIndex  = 0;
+    ptr->tailNextIndex = ptr->objSize;
 }
 
 
@@ -171,7 +189,8 @@ static BOOL LLArrayCheckMaxCap( LLArray* const p )
         Free(oldP);
         p->objects = newP;
         p->headIndex = 0;
-        p->tailIndex = p->objSize;
+        
+        p->tailNextIndex = p->objSize;
         p->maxCap *= 2;
         
     }
@@ -207,12 +226,14 @@ static uint LLArrayGetNextIndex(LLArray * const p, uint index)
 }
 /*---------------------------------------------*\
  向左移动数据函数
+ num: 需要移动的数据个数
+ start: 左边第一个的数据的下标
 \*---------------------------------------------*/
 static void LLArrayForward( LLArray* const p, uint num, uint start)
 {
     uint i,j;
     j = start;
-    for(i = 0; i<num; i++,j++) {
+    for(i = 0; num>0 && i<num ; i++,j++) {
         uint prej = LLArrayGetPreIndex(p, j);
         p->objects[prej] = p->objects[j];
     }
@@ -220,12 +241,14 @@ static void LLArrayForward( LLArray* const p, uint num, uint start)
 
 /*---------------------------------------------*\
  向右边移动数据函数
+ num: 需要移动的数据个数
+ end: 右边最后一个数据的下标
 \*---------------------------------------------*/
 static void LLArrayBackward( LLArray * const p, uint num ,uint end)
 {
     uint i,j;
     j = end;
-    for(i = 0; i<num; i++, j--) {
+    for(i = 0; num>0 && i<num ; i++, j--) {
         uint nextj = LLArrayGetNextIndex(p, j);
         p->objects[nextj] = p->objects[j];
     }
