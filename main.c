@@ -21,7 +21,8 @@ int main(int argc, char * argv[])
     }
     LLRef * obj   = LLRefCreate();
 
-    LLArrayInsertAt(ptr, obj, 3);
+    //LLArrayInsertAt(ptr, obj, 3);
+    LLArrayRemoveAt(ptr, 0);
    // for(int i=99; i>=0; i--)
    //     LLArrayRemoveAt(ptr, i);
    

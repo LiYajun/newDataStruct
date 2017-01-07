@@ -92,7 +92,7 @@ extern void LLArrayInsertAt( LLArray * const p, LLRefPtr anObject, uint index)
     LLRefRetain(object);
     
     p->objSize++;
-    printf("p info:\n"
+    printf("LLArrayInsertAt called:\n"
            "p->objSize:         %d\n"
            "p->headIndex:       %d\n"
            "p->tailNextIndex:   %d\n",
@@ -127,7 +127,8 @@ extern BOOL LLArrayRemoveAt(LLArray * const p, uint index)
     }
     LLRefRelease(obj);
     p->objSize--;
-    printf("p info:\n"
+    
+    printf("LLArrayRemoveAt called:\n"
            "p->objSize:         %d\n"
            "p->headIndex:       %d\n"
            "p->tailNextIndex:   %d\n",
