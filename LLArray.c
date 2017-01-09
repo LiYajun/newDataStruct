@@ -11,8 +11,9 @@
 
 #define  INIT_CAP    8          /*初始化的内存容量*/
 
-static void LLArrayDealloc(void * const ptr);
-static void LLArrayInit(LLArray * const ptr, sint cap);
+static void * LLArrayInitByCap(LLArray * const p, uint initCap);
+ 
+ 
 static BOOL LLArrayCheckMaxCap( LLArray* const p);
 
 static void LLArrayForward( LLArray* const p, uint num, uint start);
@@ -38,20 +39,52 @@ extern LLArray * LLArrayCreateByCap(sint initCap)
     if(p == NULL){
         return NULL;
     }
-    LLRefInit(p, LLArrayDealloc);
+    
+    return  LLArrayInitByCap(p, initCap);
+ 
+   
+}
+/*---------------------------------------------*\
+ 初始化
+ \*---------------------------------------------*/
+
+extern void * LLArrayInit(void * const ptr, deallocFun deallocFunPtr)
+{
+    LLArray * p =  LLRefInit(ptr, deallocFunPtr);
+    if(p != NULL) {
+        p->objects = NULL;
+        p->objects = (LLRefPtr*)Malloc(sizeof(LLRefPtr) * INIT_CAP);
+        
+        if(p->objects == NULL){
+            Free(p);
+            return NULL;
+            }
+        p->maxCap = INIT_CAP;
+        p->objSize    = 0;
+        p->headIndex  = 0;
+        p->tailNextIndex = p->objSize;
+    }
+    return p;
+}
+
+static void * LLArrayInitByCap(LLArray * const p, uint initCap)
+{
     p->objects = NULL;
     p->objects = (LLRefPtr*)Malloc(sizeof(LLRefPtr) * initCap);
     
     if(p->objects == NULL){
-        LLRefRelease(p);
+        Free(p);
         return NULL;
     }
+    LLRefInit(p, LLArrayDealloc);
     
-    LLArrayInit(p, initCap);
-    
-    return p;
-
+    p->maxCap = initCap;
+    p->objSize    = 0;
+    p->headIndex  = 0;
+    p->tailNextIndex = p->objSize;
+    return  p;
 }
+
 extern void LLArrayAddObject( LLArray* const p, LLRefPtr anObjct )
 {
     LLArrayInsertAt(p, anObjct, p->objSize);
@@ -152,18 +185,6 @@ extern LLRefPtr LLArrayGetObjectAt(LLArray* const p, uint index)
     realIndex = (p->headIndex+index)% p->maxCap;
     return    p->objects[realIndex];
 }
-/*---------------------------------------------*\
- 初始化
-\*---------------------------------------------*/
-static void LLArrayInit(LLArray * const ptr, sint cap)
-{
-    ptr->maxCap     = cap;
-    ptr->objSize    = 0;
-    ptr->headIndex  = 0;
-    ptr->tailNextIndex = ptr->objSize;
-}
-
-
 
 /*---------------------------------------------*\
  检查容量
@@ -255,8 +276,10 @@ static void LLArrayBackward( LLArray * const p, uint num ,uint end)
     }
     
 }
-static void LLArrayDealloc(void * const ptr)
+extern void LLArrayDealloc(void * const ptr)
 {
+    printf("%s called\n", __func__);
+    LLRefDealloc(ptr);
     LLArray * pArray = (LLArray *) ptr;
     sint i;
     if(pArray->objects!=NULL) {

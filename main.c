@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include "LLArray.h"
+#include "LLTArray.h"
 
 #define Printf(value)  \
 printf( #value "\n"   )
@@ -12,19 +13,13 @@ printf( #value "\n"   )
 #define PRINT(FORMAT,VALUE)   printf("The value "#VALUE" is "#FORMAT" \n",  VALUE)
 int main(int argc, char * argv[])
 {
-    LLArray * ptr = LLArrayCreate();
     
- 
-    for(int i=0; i<5; i++){
-        LLRef * obj   = LLRefCreate();
-        LLArrayAddObject(ptr, obj);
-    }
-    LLRef * obj   = LLRefCreate();
-
-    //LLArrayInsertAt(ptr, obj, 3);
-    LLArrayRemoveAt(ptr, 0);
-   // for(int i=99; i>=0; i--)
-   //     LLArrayRemoveAt(ptr, i);
-   
+    LLTArray * ary  = LLTArrayCreate();
+    LLRef * obj = LLRefCreate();
+    LLArrayAddObject((LLArray*)ary, obj);
+    
+    LLRefRelease(ary);
+    printf("ary release");
+    LLRefRelease(obj);
 	printf("hello world!\n");
 }

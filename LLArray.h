@@ -27,16 +27,16 @@ typedef struct _LLArray{
 
 extern LLArray * LLArrayCreateByCap(sint initCap);
 extern LLArray * LLArrayCreate(void);
+extern void * LLArrayInit(void * const ptr, deallocFun deallocFunPtr);
+//末尾添加一个元素
 extern void LLArrayAddObject( LLArray* const p, LLRefPtr anObjct );
-
-
-//添加一个元素
+//插入一个元素
 extern void LLArrayInsertAt(LLArray * const p, LLRefPtr anObject, uint index);
 //删除一个元素
 extern BOOL LLArrayRemoveAt(LLArray * const p, uint index);
 //获取一个元素
 extern LLRefPtr LLArrayGetObjectAt(LLArray* const p, uint index);
 
-
+extern void LLArrayDealloc(void * const ptr);
 
 #endif /* LLArray_h */

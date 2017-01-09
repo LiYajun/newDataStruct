@@ -1,10 +1,6 @@
 #include "LLRef.h"
 #include "mem_allocator.h"
 
-static void LLRefDealloc(void * ptr);
-
-
-
 extern LLRef * LLRefCreate(void)
 {
 	LLRef * pRef = (LLRef*)Malloc(sizeof(LLRef));
@@ -17,11 +13,12 @@ extern LLRef * LLRefCreate(void)
 	return pRef;
 }
 
-extern void LLRefInit(void * ptr, deallocFun deallocFunPtr)
+extern void * LLRefInit(void * ptr, deallocFun deallocFunPtr)
 {
 	LLRef * pRef = (LLRef*)ptr;
 	pRef->retainCount = 1;
     pRef->dealloc     = deallocFunPtr;
+    return ptr;
 }
 
 extern void setDealloc(void * ptr, deallocFun funPtr)
@@ -59,7 +56,7 @@ extern sint LLRefRetain(void * ptr)
 	return pRef->retainCount;
 }
 //释放前的的回调函数
-static void LLRefDealloc(void * ptr)
+extern void LLRefDealloc(void * ptr)
 {
     fprintf(stdout, "LLRefDealloc called!\n");
 }
