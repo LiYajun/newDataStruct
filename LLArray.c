@@ -46,7 +46,7 @@ extern LLArray * LLArrayCreateByCap(sint initCap)
 }
 /*---------------------------------------------*\
  初始化
- \*---------------------------------------------*/
+\*---------------------------------------------*/
 
 extern void * LLArrayInit(void * const ptr, deallocFun deallocFunPtr)
 {
@@ -58,7 +58,7 @@ extern void * LLArrayInit(void * const ptr, deallocFun deallocFunPtr)
         if(p->objects == NULL){
             Free(p);
             return NULL;
-            }
+        }
         p->maxCap = INIT_CAP;
         p->objSize    = 0;
         p->headIndex  = 0;
@@ -69,19 +69,20 @@ extern void * LLArrayInit(void * const ptr, deallocFun deallocFunPtr)
 
 static void * LLArrayInitByCap(LLArray * const p, uint initCap)
 {
-    p->objects = NULL;
-    p->objects = (LLRefPtr*)Malloc(sizeof(LLRefPtr) * initCap);
-    
-    if(p->objects == NULL){
-        Free(p);
-        return NULL;
+    LLArray * p = LLRefInit(p, LLArrayDealloc);
+    if(p !=NULL) {
+        p->objects = NULL;
+        p->objects = (LLRefPtr*)Malloc(sizeof(LLRefPtr) * initCap);
+        
+        if(p->objects == NULL){
+            Free(p);
+            return NULL;
+        }
+        p->maxCap = initCap;
+        p->objSize    = 0;
+        p->headIndex  = 0;
+        p->tailNextIndex = p->objSize;
     }
-    LLRefInit(p, LLArrayDealloc);
-    
-    p->maxCap = initCap;
-    p->objSize    = 0;
-    p->headIndex  = 0;
-    p->tailNextIndex = p->objSize;
     return  p;
 }
 
