@@ -34,7 +34,7 @@ void * LLTArrayInit(void * const ptr, deallocFun funPtr)
 }
 void LLTArrayDealloc(void * const p)
 {
-    printf("%s called\n",__func__);
+    printf("LLTArrayDealloc called\n");
     LLArrayDealloc(p);
     
   

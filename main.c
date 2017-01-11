@@ -14,6 +14,8 @@ printf( #value "\n"   )
 #define LLPrintf(a,...)  printf(a"\n",##__VA_ARGS__)
 #define PP(a, ...)  printf(a,  __VA_ARGS__)
 #define ppt(a,b)    printf(a, ##b)
+
+
 int main(int argc, char * argv[])
 {
     
@@ -30,5 +32,10 @@ int main(int argc, char * argv[])
     
   //  LLRefRelease(obj);
     PP("%d %d\n", 100034,34345);
+
 	printf("hello world!\n");
+
+    getchar();
+
+    return 0;
 }

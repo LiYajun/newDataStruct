@@ -16,14 +16,15 @@
 
 
 typedef struct _LLArray{
-    LLRef      ref;                /*引用计数*/
-    uint       maxCap;             /*最大的内存容量  */
-    uint       objSize;            /*现在的元素个数  */
-    uint       headIndex;          /*头部的索引     */
-    //uint       tailIndex;          /*尾部的索引     */
-    uint       tailNextIndex;      /*尾部索引的下一个位置*/
-    LLRefPtr *    objects;            /*所有元素       */
+    LLRef      ref;                 /* 引用计数 */
+    uint       maxCap;              /* 最大的内存容量 */
+    uint       objSize;             /* 现在的元素个数 */
+    uint       headIndex;           /* 头部的索引 */
+    //uint       tailIndex;         /* 尾部的索引 */
+    uint       tailNextIndex;       /* 尾部索引的下一个位置 */
+    LLRefPtr *    objects;          /* 所有元素 */
 }LLArray;
+
 
 extern LLArray * LLArrayCreateByCap(sint initCap);
 extern LLArray * LLArrayCreate(void);
@@ -38,5 +39,6 @@ extern BOOL LLArrayRemoveAt(LLArray * const p, uint index);
 extern LLRefPtr LLArrayGetObjectAt(LLArray* const p, uint index);
 
 extern void LLArrayDealloc(void * const ptr);
+
 
 #endif /* LLArray_h */

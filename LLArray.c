@@ -279,7 +279,8 @@ static void LLArrayBackward( LLArray * const p, uint num ,uint end)
 }
 extern void LLArrayDealloc(void * const ptr)
 {
-    printf("%s called\n", __func__);
+    printf("LLArrayDealloc called\n");
+
     LLRefDealloc(ptr);
     LLArray * pArray = (LLArray *) ptr;
     sint i;
