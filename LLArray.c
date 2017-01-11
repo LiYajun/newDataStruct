@@ -67,9 +67,9 @@ extern void * LLArrayInit(void * const ptr, deallocFun deallocFunPtr)
     return p;
 }
 
-static void * LLArrayInitByCap(LLArray * const p, uint initCap)
+static void * LLArrayInitByCap(LLArray * const ptr, uint initCap)
 {
-    LLArray * p = LLRefInit(p, LLArrayDealloc);
+    LLArray * p = LLRefInit(ptr, LLArrayDealloc);
     if(p !=NULL) {
         p->objects = NULL;
         p->objects = (LLRefPtr*)Malloc(sizeof(LLRefPtr) * initCap);
