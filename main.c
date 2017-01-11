@@ -3,6 +3,10 @@
 #include "LLArray.h"
 #include "LLTArray.h"
 
+#include "LSRef.h"
+#include "LSArray.h"
+
+
 #define Printf(value)  \
 printf( #value "\n"   )
 
@@ -16,24 +20,71 @@ printf( #value "\n"   )
 #define ppt(a,b)    printf(a, ##b)
 
 
-int main(int argc, char * argv[])
+void testLYJ()
 {
-    
+    LLPrintf("//////////////////////--LYJ--///////////////////");
+
     LLTArray * ary  = LLTArrayCreate();
     LLArray  * array = LLArrayCreate();
-   
-    LLArrayAddObject(array, ary);
-    
-    LLPrintf("array release%d",1);
-    LLRefRelease(array);
-    LLPrintf("ary release %d",2);
-    LLRefRelease(ary);
-    
-    
-  //  LLRefRelease(obj);
-    PP("%d %d\n", 100034,34345);
 
-	printf("hello world!\n");
+    LLArrayAddObject(array, ary);
+
+    LLPrintf("array release%d", 1);
+    LLRefRelease(array);
+    LLPrintf("ary release %d", 2);
+    LLRefRelease(ary);
+
+
+    // LLRefRelease(obj);
+    PP("%d %d\n", 100034, 34345);
+
+    LLPrintf("////////////////////////////////////////////////");
+}
+
+
+void testLS()
+{
+    LLPrintf("//////////////////////--LS--////////////////////");
+
+    LSRef *ref1 = LSRefCreate();
+    LSDisplay(ref1);
+
+    LSRetain(ref1);
+    LSDisplay(ref1);
+    LSRelease(ref1);
+    LSDisplay(ref1);
+
+
+    LSRef *ref2 = LSRefCreate();
+    LSRef *ref3 = LSRefCreate();
+    LSArray *array1 = LSArrayCreate();
+    LSArray *array2 = LSArrayCreate();
+
+    LSRetain(ref2);
+    LSRetain(ref2);
+
+    LSArrayAdd(array1, ref1);
+    LSArrayAdd(array1, ref3);
+    LSArrayAdd(array1, array2);
+    LSArrayAdd(array2, ref2);
+
+    LSRelease(ref1);
+
+    LSDisplay(array1);
+    LSDisplay(array2);
+
+    LSRelease(array1);
+    LSDisplay(array2);
+
+    LLPrintf("////////////////////////////////////////////////");
+}
+
+
+int main(int argc, char * argv[])
+{
+    testLYJ();
+    LLPrintf("\n\n");
+    testLS();
 
     getchar();
 

@@ -12,12 +12,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
-#define  Malloc(p)       malloc((p))
-#define  Free(p)         free((p))
-#define  Realloc(p, num)     realloc((p),(num))
-#define  Calloc(count, size)  calloc((count), (size))
+#define  Malloc(p)                  malloc((p))
+#define  Free(p)                    free((p))
+#define  Realloc(p, num)            realloc((p),(num))
+#define  Calloc(count, size)        calloc((count), (size))
+
+#define MemCpy(dst, rsc, count)     memcpy(dst, rsc, count)
+#define MemSet(dst, val, size)      memset(dst, val, size)
 
 
 #endif /* mem_allocator_h */
