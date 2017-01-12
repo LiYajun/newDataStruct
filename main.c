@@ -49,31 +49,28 @@ void testLS()
     LSRef *ref1 = LSRefCreate();
     LSDisplay(ref1);
 
-    LSRetain(ref1);
+    LSRef *ref2 = LS_RETAIN(ref1);
     LSDisplay(ref1);
-    LSRelease(ref1);
+    LS_RELEASE(ref2);
     LSDisplay(ref1);
 
-
-    LSRef *ref2 = LSRefCreate();
+    LLPrintf("-------------------------");
     LSRef *ref3 = LSRefCreate();
+    LSRef *ref4 = LSRefCreate();
     LSArray *array1 = LSArrayCreate();
     LSArray *array2 = LSArrayCreate();
 
-    LSRetain(ref2);
-    LSRetain(ref2);
-
     LSArrayAdd(array1, ref1);
-    LSArrayAdd(array1, ref3);
+    LSArrayAdd(array1, ref4);
     LSArrayAdd(array1, array2);
-    LSArrayAdd(array2, ref2);
+    LSArrayAdd(array2, ref3);
 
-    LSRelease(ref1);
+    LS_RELEASE(ref1);
 
     LSDisplay(array1);
     LSDisplay(array2);
 
-    LSRelease(array1);
+    LS_RELEASE(array1);
     LSDisplay(array2);
 
     LLPrintf("////////////////////////////////////////////////");

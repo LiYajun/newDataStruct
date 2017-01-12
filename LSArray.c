@@ -5,10 +5,6 @@
 static const uint DEF_CAP   = 8;
 
 
-void LSArrayRetain(LSRefPtr ptr);
-
-void LSArrayRelease(LSRefPtr ptr);
-
 void LSArrayDealloc(LSRefPtr ptr);
 
 void LSArrayDisplay(LSRefPtr ptr, uint offset);
@@ -39,7 +35,7 @@ LSArray *LSArrayCreateByCap(uint cap)
         return NULL;
     }
 
-    LSInit(pArray, LSArrayRetain, LSArrayRelease, LSArrayDealloc, LSArrayDisplay);
+    LSInit(pArray, LSArrayDealloc, LSArrayDisplay);
     pArray->capacity    = cap;
     pArray->size        = 0;
 
@@ -70,7 +66,7 @@ BOOL LSArrayInsert(LSArray *const ptr, LSRefPtr obj, uint index)
         }
     }
 
-    LSRetain(obj);
+    LS_RETAIN(obj);
     ptr->objects[index] = obj;
     ptr->size++;
 
@@ -96,7 +92,7 @@ BOOL LSArrayRemove(LSArray *const ptr, uint index)
         }
     }
 
-    LSRelease(obj);
+    LS_RELEASE(obj);
     ptr->size--;
 
     return YES;
@@ -112,29 +108,14 @@ LSRefPtr LSArrayGet(LSArray *const ptr, uint index)
     return ptr->objects[index];
 }
 
-void LSArrayRetain(LSRefPtr ptr)
-{
-    LSArray *pArray = (LSArray *)ptr;
-
-    for (uint i = 0; i < pArray->size; i++)
-    {
-        LSRetain(pArray->objects[i]);
-    }
-}
-
-void LSArrayRelease(LSRefPtr ptr)
-{
-    LSArray *pArray = (LSArray *)ptr;
-
-    for (uint i = 0; i < pArray->size; i++)
-    {
-        LSRelease(pArray->objects[i]);
-    }
-}
-
 void LSArrayDealloc(LSRefPtr ptr)
 {
     LSArray *pArray = (LSArray *)ptr;
+
+    for (uint i = 0; i < pArray->size; i++)
+    {
+        LS_RELEASE(pArray->objects[i]);
+    }
 
     Free(pArray->objects);
     
