@@ -60,5 +60,5 @@ extern sint LLRefRetain(void * ptr)
 extern void LLRefDealloc(void * ptr)
 {
     fprintf(stdout, "LLRefDealloc called\n");
-	printf("%s", __FUNCDNAME__);
+	//printf("%s", __FUNCDNAME__);
 }

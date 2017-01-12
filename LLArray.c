@@ -296,5 +296,6 @@ extern void LLArrayDealloc(void * const ptr)
 			LLRefRelease(obj);
 			pArray->objects[i] = NULL;
 		}
+        Free(pArray->objects);
 	}
 }
