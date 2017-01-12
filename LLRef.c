@@ -31,11 +31,7 @@ extern sint LLRefRelease(void * ptr)
 {
 	LLRef * pRef = (LLRef*)ptr;
 
-	if (pRef->retainCount>0) 
-    {
-		pRef->retainCount--;
-	}
-
+    pRef->retainCount--;
 	sint count = pRef->retainCount;
 
 	if (pRef->retainCount == 0) 
