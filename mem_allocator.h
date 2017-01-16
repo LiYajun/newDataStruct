@@ -23,5 +23,11 @@
 #define MemCpy(dst, rsc, count)     memcpy(dst, rsc, count)
 #define MemSet(dst, val, size)      memset(dst, val, size)
 
+#ifndef max
+    #define max(a,b)   (a)>(b)? (a):(b)
+#endif
+#ifndef min
+    #define min(a,b)   (a)<(b)? (a):(b)
+#endif
 
 #endif /* mem_allocator_h */

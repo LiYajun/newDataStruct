@@ -11,7 +11,7 @@
 
 void LLTArrayDealloc(void * const p);
 
-void * LLTArrayInit(void * const ptr, deallocFun funPtr);
+void * LLTArrayInit(void * const ptr, DeallocFunc funPtr);
 
 static uint TArrayID = 0;
 extern LLTArray * LLTArrayCreate(void)
@@ -23,7 +23,7 @@ extern LLTArray * LLTArrayCreate(void)
     return   LLTArrayInit(ptr, LLTArrayDealloc);
 
 }
-void * LLTArrayInit(void * const ptr, deallocFun funPtr)
+void * LLTArrayInit(void * const ptr, DeallocFunc funPtr)
 {
     LLTArray * p = LLArrayInit(ptr, LLTArrayDealloc);
     

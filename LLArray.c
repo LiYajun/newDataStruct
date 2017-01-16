@@ -11,7 +11,7 @@
 
 #define  INIT_CAP    8          /*初始化的内存容量*/
 
-static void * LLArrayInitByCap(LLArray * const p, uint initCap);
+static LLRefPtr LLArrayInitByCap(LLArray * const p, uint initCap);
 
 
 static BOOL LLArrayCheckMaxCap(LLArray* const p);
@@ -21,6 +21,8 @@ static void LLArrayBackward(LLArray * const p, uint num, uint end);
 
 static uint LLArrayGetPreIndex(LLArray * const p, uint index);
 static uint LLArrayGetNextIndex(LLArray * const p, uint index);
+
+static void LLArrayPrint(LLRefPtr ptr);
 
 extern LLArray * LLArrayCreate(void)
 {
@@ -48,7 +50,7 @@ extern LLArray * LLArrayCreateByCap(sint initCap)
  初始化
 \*---------------------------------------------*/
 
-extern void * LLArrayInit(void * const ptr, deallocFun deallocFunPtr)
+extern LLRefPtr LLArrayInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr)
 {
 	LLArray * p = LLRefInit(ptr, deallocFunPtr);
 	if (p != NULL) {
@@ -63,11 +65,13 @@ extern void * LLArrayInit(void * const ptr, deallocFun deallocFunPtr)
 		p->objSize = 0;
 		p->headIndex = 0;
 		p->tailNextIndex = p->objSize;
+        ((LLRef*)p)->display = NULL;
+        ((LLRef*)p)->display = LLArrayPrint;
 	}
 	return p;
 }
 
-static void * LLArrayInitByCap(LLArray * const ptr, uint initCap)
+static LLRefPtr LLArrayInitByCap(LLArray * const ptr, uint initCap)
 {
 	LLArray * p = LLRefInit(ptr, LLArrayDealloc);
 	if (p != NULL) {
@@ -127,14 +131,6 @@ extern void LLArrayInsertAt(LLArray * const p, LLRefPtr anObject, uint index)
 	LLRefRetain(object);
 
 	p->objSize++;
-	printf("LLArrayInsertAt called:\n"
-		"p->objSize:         %d\n"
-		"p->headIndex:       %d\n"
-		"p->tailNextIndex:   %d\n",
-		p->objSize,
-		p->headIndex,
-		p->tailNextIndex
-	);
 }
 /*---------------------------------------------*\
  移除一个对象
@@ -164,14 +160,7 @@ extern BOOL LLArrayRemoveAt(LLArray * const p, uint index)
 	LLRefRelease(obj);
 	p->objSize--;
 
-	printf("LLArrayRemoveAt called:\n"
-		"p->objSize:         %d\n"
-		"p->headIndex:       %d\n"
-		"p->tailNextIndex:   %d\n",
-		p->objSize,
-		p->headIndex,
-		p->tailNextIndex
-	);
+
 	return YES;
 }
 /*---------------------------------------------*\
@@ -281,7 +270,7 @@ static void LLArrayBackward(LLArray * const p, uint num, uint end)
 	}
 
 }
-extern void LLArrayDealloc(void * const ptr)
+extern void LLArrayDealloc(LLRefPtr const ptr)
 {
 	printf("LLArrayDealloc called\n");
 
@@ -299,3 +288,33 @@ extern void LLArrayDealloc(void * const ptr)
         Free(pArray->objects);
 	}
 }
+static void LLArrayPrint(LLRefPtr ptr)
+{
+    LLArray * p = (LLArray*) ptr;
+    
+    fprintf(stdout,
+            "print values of LLArray:\n"
+            "objSize:         %d\n"
+            "headIndex:       %d\n"
+            "tailNextIndex:   %d\n",
+            p->objSize,
+            p->headIndex,
+            p->tailNextIndex );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

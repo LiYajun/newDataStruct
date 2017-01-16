@@ -5,23 +5,33 @@
 #include "LLTypes.h"
 
 
+typedef void  * LLRefPtr;
+/************************************************************************\
+ 函数指针
+\************************************************************************/
+typedef void(*DeallocFunc)(LLRefPtr pRef);
+
+typedef void(*DisplayFunc)(LLRefPtr pRef);
+
+
 typedef struct _LLRef
 {
 	sint  retainCount;
-    void  (*dealloc)(void * pRef);
+    DeallocFunc dealloc;
+    DisplayFunc display;
 }LLRef;
 
 
-typedef void  (*deallocFun)(void * pRef);
-typedef void  * LLRefPtr;
 
 
-extern  LLRef * LLRefCreate(void);
-extern  void  * LLRefInit(void * ptr, deallocFun dallocFunPtr);
-extern  sint    LLRefRelease(void * ptr);
-extern  sint    LLRefRetain(void * ptr);
-extern  void    LLRefDealloc(void * ptr);
 
+
+extern  LLRef *     LLRefCreate(void);
+extern  LLRefPtr    LLRefInit(LLRefPtr ptr, DeallocFunc dallocFunPtr);
+extern  sint        LLRefRelease(LLRefPtr ptr);
+extern  sint        LLRefRetain(LLRefPtr  ptr);
+extern  void        LLRefDealloc(LLRefPtr ptr);
+extern  void        LLRefPrint(LLRefPtr ptr);
 
 #endif // !_LLREF_H_
 

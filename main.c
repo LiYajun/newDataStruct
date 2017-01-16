@@ -3,8 +3,8 @@
 #include "LLArray.h"
 #include "LLTArray.h"
 
-#include "LSRef.h"
-#include "LSArray.h"
+//#include "LSRef.h"
+//#include "LSArray.h"
 
 
 #define Printf(value)  \
@@ -41,7 +41,7 @@ void testLYJ()
     LLPrintf("////////////////////////////////////////////////");
 }
 
-
+#if defined(__LSREF_H__)
 void testLS()
 {
     LLPrintf("//////////////////////--LS--////////////////////");
@@ -75,13 +75,13 @@ void testLS()
 
     LLPrintf("////////////////////////////////////////////////");
 }
-
+#endif
 
 int main(int argc, char * argv[])
 {
     testLYJ();
     LLPrintf("\n\n");
-    testLS();
+    //testLS();
 
     getchar();
 
