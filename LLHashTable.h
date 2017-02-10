@@ -15,7 +15,7 @@
 #include "LLRef.h"
 
 
-typedef struct _LLHash{
+typedef struct _LLHashTable{
     LLRef      ref;                 /* 引用计数 */
 
 }LLHashTable;
