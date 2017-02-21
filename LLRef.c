@@ -13,7 +13,7 @@ extern LLRef * LLRefCreate(void)
 	return pRef;
 }
 
-extern void * LLRefInit(void * ptr, DeallocFunc deallocFunPtr)
+extern LLRefPtr LLRefInit(LLRefPtr ptr, DeallocFunc deallocFunPtr)
 {
 	LLRef * pRef = (LLRef*)ptr;
 	pRef->retainCount = 1;
@@ -23,7 +23,7 @@ extern void * LLRefInit(void * ptr, DeallocFunc deallocFunPtr)
 }
 
 
-extern sint LLRefRelease(void * ptr)
+extern sint LLRefRelease(LLRefPtr ptr)
 {
 	LLRef * pRef = (LLRef*)ptr;
 
@@ -41,7 +41,7 @@ extern sint LLRefRelease(void * ptr)
 	return count;
 }
 
-extern sint LLRefRetain(void * ptr)
+extern sint LLRefRetain(LLRefPtr ptr)
 {
 	LLRef * pRef = (LLRef*)ptr;
 	pRef->retainCount++;
@@ -56,7 +56,7 @@ extern void LLRefPrint(LLRefPtr ptr)
     }
 }
 //释放前的的回调函数
-extern void LLRefDealloc(void * ptr)
+extern void LLRefDealloc(LLRefPtr ptr)
 {
     fprintf(stdout, "LLRefDealloc called\n");
     
