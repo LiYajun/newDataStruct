@@ -1,7 +1,9 @@
 #include "LJHashTable.h"
 #include "mem_allocator.h"
+#define Hash_INIT_CAP   1007
 static void LJHashTableDealloc(LLRefPtr const ptr);
 static uint NextPrime(uint size);
+
 extern LJHashTable * LJHashTableCreate(void)
 {
 	LJHashTable * p = NULL;
@@ -16,12 +18,12 @@ extern LLRefPtr LJHashTableInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr)
 {
 	LJHashTable * p = LLRefInit(ptr, deallocFunPtr);
 	if (p != NULL) {
-		p->bucketsSize = NextPrime(107);
-		p->buckets = (LLRefPtr*)Malloc(sizeof(LLRefPtr) * 1007);
+		p->bucketsSize = NextPrime(Hash_INIT_CAP);
+		p->buckets = (LLRefPtr*)Malloc(sizeof(LLRefPtr) * p->bucketsSize);
 	}
 	return p;
 }
-void LJHashTableDealloc(LLRefPtr const ptr)
+extern void LJHashTableDealloc(LLRefPtr const ptr)
 {
 
 }

@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include "LLTypes.h"
 #include "LLRef.h"
+/*---------------------------------------------*\
+ 分离链表式散列表
+\*---------------------------------------------*/
 typedef struct _LJHashTable
 {
 	LLRef		ref;
