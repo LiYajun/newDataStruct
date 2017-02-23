@@ -1,9 +1,5 @@
-//
 //  mem_allocator.h
 //  dataStruct
-//
-//  Created by li yajun on 16/3/31.
-//  Copyright © 2016年 li yajun. All rights reserved.
 //
 
 #ifndef mem_allocator_h

@@ -3,13 +3,14 @@
 #include <stdio.h>
 #include "LLTypes.h"
 #include "LLRef.h"
-typedef struct _LJHashTable
-{
+/*链式散列表*/
+typedef struct _LJHashTable{
 	LLRef		ref;
-	uint        bucketsSize;
-	LLRefPtr  * buckets;
+	uint        bucketsSize;    /* 桶个数 */
+	uint		objSize;		/* 现在的元素个数 */
+	LLRefPtr  * buckets;        /* 桶数组 */
+	sfloat      loadRatio;      /* 元素个数比上桶个数 */
 }LJHashTable;
-
 extern LJHashTable * LJHashTableCreate(void);
 extern LLRefPtr LJHashTableInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr);
 #endif 

@@ -1,11 +1,5 @@
-//
 //  GlobalTypes.h
 //  dataStruct
-//
-//  Created by li yajun on 16/3/31.
-//  Copyright © 2016年 li yajun. All rights reserved.
-//
-
 #ifndef LLTypes_h
 #define LLTypes_h
 
@@ -19,7 +13,7 @@ typedef unsigned int        uint;
 typedef signed   int        sint;
 typedef unsigned long       ulong;
 typedef signed   long       slong;
-typedef int                 ElementType;
+typedef float				sfloat;
 
 
 typedef enum {
