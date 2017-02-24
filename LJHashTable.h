@@ -4,7 +4,9 @@
 #include "LLTypes.h"
 #include "LLRef.h"
 /*链式散列表*/
-typedef struct _LJHashTable{
+typedef struct _LJHashTable
+{
+
 	LLRef		ref;
 	uint        bucketsSize;    /* 桶个数 */
 	uint		objSize;		/* 现在的元素个数 */

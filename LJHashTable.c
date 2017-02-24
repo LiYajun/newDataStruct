@@ -1,6 +1,7 @@
 #include "LJHashTable.h"
 #include "mem_allocator.h"
 
+#define Hash_INIT_CAP   1007
 typedef struct _LinkNode{
 	LLRefPtr object;
 	struct _LinkNode * next;
@@ -8,6 +9,11 @@ typedef struct _LinkNode{
 
 static void LJHashTableDealloc(LLRefPtr const ptr);
 static uint getPrimeNumBy(uint size);
+
+
+static void LJHashTableDealloc(LLRefPtr const ptr);
+static uint NextPrime(uint size);
+
 extern LJHashTable * LJHashTableCreate(void)
 {
 	LJHashTable * p = NULL;
@@ -22,7 +28,7 @@ extern LLRefPtr LJHashTableInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr)
 {
 	LJHashTable * p = LLRefInit(ptr, deallocFunPtr);
 	if (p != NULL) {
-		p->bucketsSize = getPrimeNumBy(107);
+		p->bucketsSize = getPrimeNumBy(Hash_INIT_CAP);
 		p->buckets = (LLRefPtr*)Malloc(sizeof(LLRefPtr) * p->bucketsSize);
 	}
 	return p;
@@ -39,3 +45,4 @@ static uint getPrimeNumBy(uint size)
 {
 	return 1699;
 }
+
