@@ -12,7 +12,7 @@ static uint getPrimeNumBy(uint size);
 
 
 static void LJHashTableDealloc(LLRefPtr const ptr);
-static uint NextPrime(uint size);
+
 
 extern LJHashTable * LJHashTableCreate(void)
 {
