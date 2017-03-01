@@ -24,7 +24,7 @@ LLRefPtr LJStringInitByString(LLRefPtr const ptr, const char * str)
 {
 	LJString * p = LLRefInit(ptr, LJStringDealloc);
 	if (p != NULL) {
-		char * temp = str;
+		 
 		
 	}
 	return p;
