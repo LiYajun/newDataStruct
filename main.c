@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include "LLArray.h"
 #include "LLTArray.h"
-
+#include <string.h>
+#include "mem_allocator.h"
 //#include "LSRef.h"
 //#include "LSArray.h"
 
@@ -19,7 +20,17 @@ printf( #value "\n"   )
 #define PP(a, ...)  printf(a,  __VA_ARGS__)
 #define ppt(a,b)    printf(a, ##b)
 
-
+void testString()
+{
+	char * key = "abcdefg";
+	uint   len = strnlen(key, 0xFF);
+	char * key2 = Malloc(sizeof(char)*(len + 1));
+	key2 = strncpy(key2, key, len + 1);
+	char s[] = "hello world";
+	strncpy(s, "shit!", 5);
+	puts(s);
+	printf("%s", key2);
+}
 void testLYJ()
 {
     LLPrintf("//////////////////////--LYJ--///////////////////");
@@ -79,10 +90,10 @@ void testLS()
 
 int main(int argc, char * argv[])
 {
-    testLYJ();
-    LLPrintf("\n\n");
+    //testLYJ();
+   // LLPrintf("\n\n");
     //testLS();
-
+	testString();
     getchar();
 
     return 0;

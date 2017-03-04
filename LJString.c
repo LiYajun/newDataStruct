@@ -8,7 +8,9 @@
 
 #include "LJString.h"
 #include "mem_allocator.h"
- 
+#include "LLRef.h"
+
+static void LJStringDealloc(void * const p);
 
 LJString * LJStringCreateByString(const char * str)
 {
@@ -29,7 +31,7 @@ LLRefPtr LJStringInitByString(LLRefPtr const ptr, const char * str)
 	}
 	return p;
 }
-void LJStringDealloc(void * const p)
+static void LJStringDealloc(void * const p)
 {
     printf("%s called\n",__FUNCDNAME__);
 }

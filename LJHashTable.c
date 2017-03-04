@@ -63,6 +63,7 @@ extern BOOL LJHashTableInsert(LLRefPtr const ptr, LLRefPtr anObject, const char 
 		bucketNode->next = Malloc(sizeof(HashNode));
 		HashNode * node = bucketNode->next;
 		node->key = Malloc(sizeof(char)*(length + 1));
+		strncpy(node->key, key,length+1);
 	}
 	return YES;
 }

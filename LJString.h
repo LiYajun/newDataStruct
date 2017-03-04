@@ -16,6 +16,6 @@ typedef struct _LJString{
 	uint    length;
 	char *  value;
 }LJString;
-
-extern LLRefPtr LJStringInit(LLRefPtr const p, const char * str);
+extern LJString * LJStringCreateByString(const char * str);
+extern LLRefPtr LJStringInitByString(LLRefPtr const ptr, const char * str);
 #endif /* LJString_h */
