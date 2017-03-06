@@ -6,7 +6,7 @@
 #include "mem_allocator.h"
 //#include "LSRef.h"
 //#include "LSArray.h"
-
+#include <signal.h>
 
 #define Printf(value)  \
 printf( #value "\n"   )
@@ -87,13 +87,17 @@ void testLS()
     LLPrintf("////////////////////////////////////////////////");
 }
 #endif
-
+void sigHandler(int sig)
+{
+	printf("test signal!");
+}
 int main(int argc, char * argv[])
 {
-    //testLYJ();
-   // LLPrintf("\n\n");
-    //testLS();
-	testString();
+
+	  //signal(SIGABRT, &sigHandler);
+	  //raise(SIGFPE);
+	  printf("get char");
+
     getchar();
 
     return 0;

@@ -1,6 +1,6 @@
 #include "LJHashTable.h"
 #include "mem_allocator.h"
-
+#include "LLRef.h"
 #define HASH_INIT_CAP   1007
 typedef struct _HashNode{
 	LLRefPtr object;
@@ -53,18 +53,49 @@ extern LLRefPtr LJHashTableInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr)
 	}
 	return p;
 }
+//linked hash talbe always can insert
 extern BOOL LJHashTableInsert(LLRefPtr const ptr, LLRefPtr anObject, const char * key)
 {
-	uint length = strnlen(key, 0xFF); //key length <= 255
+	uint length = StrnLen(key, 0xFF); //key length <= 255
 	LJHashTable * p = (LJHashTable*)ptr;
 	uint index = LJHashTableHash(ptr, key);
 	BucketNode * bucketNode = p->buckets[index];
-	if (bucketNode->next == NULL) {
-		bucketNode->next = Malloc(sizeof(HashNode));
-		HashNode * node = bucketNode->next;
-		node->key = Malloc(sizeof(char)*(length + 1));
-		strncpy(node->key, key,length+1);
+	HashNode * node = bucketNode->next;
+   //already element here
+	while (node != NULL) {
+		if (StrnCmp(node->key, key, 0xFF) == 0) { //keys are same
+				LLRefRelease(node->object);
+				node->object = anObject;
+				LLRefRetain(anObject);
+				return YES;
+		}
+		node = node->next;
 	}
+	node = Malloc(sizeof(HashNode));
+	node->key = Malloc(sizeof(char)*(length + 1));
+	StrnCpy(node->key, key, length + 1);
+	HashNode * firstNode = bucketNode->next;
+	bucketNode->next = node;
+	node->next = firstNode;
+	return YES;
+}
+extern LLRefPtr LJHashTableObjectForKey(LJHashTable * ptr, char * const key)
+{
+	LJHashTable * p = (LJHashTable*)ptr;
+	uint index = LJHashTableHash(ptr, key);
+	BucketNode * bucketNode = ptr->buckets[index];
+	HashNode * node = bucketNode->next;
+	while (node != NULL) {
+		if (StrnCmp(node->key, key, 0xFF) == 0) {
+			return node->object;
+		}
+		node = node->next;
+	}
+	return NULL;
+}
+extern BOOL LJHashTableRemoveObjForKey(LJHashTable * ptr, char * const key)
+{
+
 	return YES;
 }
 extern void LJHashTableDealloc(LLRefPtr const ptr)
@@ -73,10 +104,10 @@ extern void LJHashTableDealloc(LLRefPtr const ptr)
 
 	LLRefDealloc(ptr);
 	LJHashTable* pHashTable = (LJHashTable *)ptr;
-	
+	//clear memory
 	 
 }
- 
+ // key in "a,b,c...z" or "A,B,C...Z"
 static uint LJHashTableHash(LJHashTable * ptr, const char * key)
 {
 	uint hashVal = 0;

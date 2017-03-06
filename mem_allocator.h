@@ -15,6 +15,10 @@
 #define  Free(p)                    free((p))
 #define  Realloc(p, num)            realloc((p),(num))
 #define  Calloc(count, size)        calloc((count), (size))
+ 
+#define  StrnCpy(dest,src, count)   strncpy(dest, src, count)
+#define  StrnCmp(dest,src, count)   strncmp(dest, src, count)
+#define  StrnLen(src, count)		strnlen(src, count)
 
 #define MemCpy(dst, rsc, count)     memcpy(dst, rsc, count)
 #define MemSet(dst, val, size)      memset(dst, val, size)
