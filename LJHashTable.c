@@ -44,7 +44,7 @@ extern LLRefPtr LJHashTableInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr)
 	LJHashTable * p = LLRefInit(ptr, deallocFunPtr);
 	if (p != NULL) {
 		p->bucketsSize = getPrimeNumBy(HASH_INIT_CAP);
-		p->buckets = (LLRefPtr*)Calloc(p->bucketsSize, sizeof(BucketNode));
+		p->buckets = (BucketNode*)Calloc(p->bucketsSize, sizeof(BucketNode));
 		if (p->buckets == NULL) {
 			Free(p);
 			return NULL;
@@ -54,12 +54,12 @@ extern LLRefPtr LJHashTableInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr)
 	return p;
 }
 //linked hash talbe always can insert
-extern BOOL LJHashTableInsert(LLRefPtr const ptr, LLRefPtr anObject, const char * key)
+extern void LJHashTableInsert(LJHashTable * const ptr, LLRefPtr anObject, const char * key)
 {
 	uint length = StrnLen(key, 0xFF); //key length <= 255
 	LJHashTable * p = (LJHashTable*)ptr;
 	uint index = LJHashTableHash(ptr, key);
-	BucketNode * bucketNode = p->buckets[index];
+	BucketNode *  bucketNode = &p->buckets[index];
 	HashNode * node = bucketNode->next;
    //already element here
 	while (node != NULL) {
@@ -67,23 +67,26 @@ extern BOOL LJHashTableInsert(LLRefPtr const ptr, LLRefPtr anObject, const char 
 				LLRefRelease(node->object);
 				node->object = anObject;
 				LLRefRetain(anObject);
-				return YES;
+				return  YES;
 		}
 		node = node->next;
 	}
+	//head insert 
 	node = Malloc(sizeof(HashNode));
+	if (node == NULL) return NO;
 	node->key = Malloc(sizeof(char)*(length + 1));
+	if (node->key) return NO;
 	StrnCpy(node->key, key, length + 1);
 	HashNode * firstNode = bucketNode->next;
 	bucketNode->next = node;
 	node->next = firstNode;
-	return YES;
+	return  YES;
 }
-extern LLRefPtr LJHashTableObjectForKey(LJHashTable * ptr, char * const key)
+extern LLRefPtr LJHashTableObjectForKey(LJHashTable * const ptr, char * const key)
 {
 	LJHashTable * p = (LJHashTable*)ptr;
-	uint index = LJHashTableHash(ptr, key);
-	BucketNode * bucketNode = ptr->buckets[index];
+	uint index = LJHashTableHash(p, key);
+	BucketNode *  bucketNode = &p->buckets[index];
 	HashNode * node = bucketNode->next;
 	while (node != NULL) {
 		if (StrnCmp(node->key, key, 0xFF) == 0) {
@@ -93,10 +96,33 @@ extern LLRefPtr LJHashTableObjectForKey(LJHashTable * ptr, char * const key)
 	}
 	return NULL;
 }
-extern BOOL LJHashTableRemoveObjForKey(LJHashTable * ptr, char * const key)
+extern void LJHashTableRemoveObjectForKey(LJHashTable * const ptr, char * const key)
 {
-
-	return YES;
+	LJHashTable * p = (LJHashTable*)ptr;
+	uint index = LJHashTableHash(p, key);
+	BucketNode * bucketNode = &p->buckets[index];
+	HashNode * node = bucketNode->next;
+ 
+	if (node == NULL) return ;
+	int i = 0;
+	HashNode * preNode = node;
+	while(node != NULL){
+		if (StrnCmp(node->key, key, 0xFF) == 0) {
+			LLRefRelease(node->object);
+			if (i == 0) {
+				bucketNode->next = node->next;
+				Free(node);
+			}
+			else {
+				preNode->next = node->next;
+				Free(node);
+			}
+			return;
+		}
+		i++;
+		preNode = node;
+		node = node->next;
+	}
 }
 extern void LJHashTableDealloc(LLRefPtr const ptr)
 {
