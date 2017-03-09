@@ -3,7 +3,7 @@
 //  newDataStructPro
 //
 //  Created by li yajun on 17/1/9.
-//  Copyright © 2017年 li yajun. All rights reserved.
+//  Copyright 2017 li yajun. All rights reserved.
 //
 
 #include "LJString.h"

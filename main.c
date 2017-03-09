@@ -4,9 +4,9 @@
 #include "LLTArray.h"
 #include <string.h>
 #include "mem_allocator.h"
-//#include "LSRef.h"
-//#include "LSArray.h"
+#include "LJNumber.h"
 #include <signal.h>
+#include "LJHashTable.h"
 
 #define Printf(value)  \
 printf( #value "\n"   )
@@ -93,11 +93,22 @@ void sigHandler(int sig)
 }
 int main(int argc, char * argv[])
 {
+    //signal(SIGABRT, &sigHandler);
+    //raise(SIGFPE);
+	LJHashTable * table = LJHashTableCreate( );
+	LJNumber * number = LJNumberCreateByNum(2);
+	uint retain = number->ref.retainCount;
+	LJHashTableInsert(table, number, "key");
+	retain = number->ref.retainCount;
+	LJNumber * number1 = LJHashTableObjectForKey(table, "key");
+	LJHashTableInsert(table, number, "key");
+	retain = number->ref.retainCount;
+	LLRefRelease(number);
 
-	  //signal(SIGABRT, &sigHandler);
-	  //raise(SIGFPE);
-	  printf("get char");
+	LLRefRelease(number);
 
+ 
+	printf("retain count = %d", number1->val);
     getchar();
 
     return 0;

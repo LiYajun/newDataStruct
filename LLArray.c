@@ -1,15 +1,13 @@
-//
 //  LLArray.c
 //  newDataStructPro
-//
 //  Created by li yajun on 17/1/4.
-//  Copyright © 2017年 li yajun. All rights reserved.
+//  Copyright  2017  li yajun. All rights reserved.
 
 #include "LLArray.h"
 #include "mem_allocator.h"
 #include <assert.h>
 
-#define  INIT_CAP    8          /*初始化的内存容量*/
+#define  INIT_CAP    8          
 
 static LLRefPtr LLArrayInitByCap(LLArray * const p, uint initCap);
 
@@ -47,7 +45,7 @@ extern LLArray * LLArrayCreateByCap(sint initCap)
 
 }
 /*---------------------------------------------*\
- 初始化
+
 \*---------------------------------------------*/
 
 extern LLRefPtr LLArrayInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr)
@@ -95,7 +93,7 @@ extern void LLArrayAddObject(LLArray* const p, LLRefPtr anObjct)
 	LLArrayInsertAt(p, anObjct, p->objSize);
 }
 /*---------------------------------------------*\
- 插入一个元素
+ 
 \*---------------------------------------------*/
 extern void LLArrayInsertAt(LLArray * const p, LLRefPtr anObject, uint index)
 {
@@ -113,11 +111,11 @@ extern void LLArrayInsertAt(LLArray * const p, LLRefPtr anObject, uint index)
 		return;
 	}
 
-	//获取实际的插入位置
+	 
 	realIndex = (p->headIndex + index) % p->maxCap;
 
 	if (index < (p->objSize + 1) / 2) {
-		realIndex = LLArrayGetPreIndex(p, realIndex); //实际的位置
+		realIndex = LLArrayGetPreIndex(p, realIndex);  
 		LLArrayForward(p, index, p->headIndex);
 		p->objects[realIndex] = object;
 		p->headIndex = LLArrayGetPreIndex(p, p->headIndex);
@@ -133,7 +131,7 @@ extern void LLArrayInsertAt(LLArray * const p, LLRefPtr anObject, uint index)
 	p->objSize++;
 }
 /*---------------------------------------------*\
- 移除一个对象
+  
 \*---------------------------------------------*/
 extern BOOL LLArrayRemoveAt(LLArray * const p, uint index)
 {
@@ -147,7 +145,7 @@ extern BOOL LLArrayRemoveAt(LLArray * const p, uint index)
 	}
 	realIndex = (p->headIndex + index) % p->maxCap;
 	obj = p->objects[realIndex];
-	if (index < (p->objSize + 1) / 2) { //删除的元素在前半段，
+	if (index < (p->objSize + 1) / 2) { //delete object in first half of array，
 		realIndex = LLArrayGetPreIndex(p, realIndex);
 		LLArrayBackward(p, index, realIndex);
 		p->headIndex = LLArrayGetNextIndex(p, p->headIndex);
@@ -164,7 +162,7 @@ extern BOOL LLArrayRemoveAt(LLArray * const p, uint index)
 	return YES;
 }
 /*---------------------------------------------*\
- 获取一个对象
+ 
 \*---------------------------------------------*/
 extern LLRefPtr LLArrayGetObjectAt(LLArray* const p, uint index)
 {
@@ -179,7 +177,7 @@ extern LLRefPtr LLArrayGetObjectAt(LLArray* const p, uint index)
 }
 
 /*---------------------------------------------*\
- 检查容量
+ 
 \*---------------------------------------------*/
 static BOOL LLArrayCheckMaxCap(LLArray* const p)
 {
@@ -187,11 +185,11 @@ static BOOL LLArrayCheckMaxCap(LLArray* const p)
 	LLRefPtr * oldP = NULL;
 	uint realIndex = 0;
 	uint i;
-	//判断容量够不够
+	// 
 	if (p->objSize >= p->maxCap) {
-		//new = Realloc(p->objects, sizeof(object_p)*2*p->max_cap); //扩大2倍
+		//new = Realloc(p->objects, sizeof(object_p)*2*p->max_cap); // 
 		oldP = p->objects;
-		newP = Malloc(sizeof(LLRefPtr) * 2 * p->maxCap);
+		newP = Malloc(sizeof(LLRefPtr) * 2 * p->maxCap);//resize to 2*maxCap
 
 		if (newP == NULL) {
 			return NO;
@@ -212,7 +210,7 @@ static BOOL LLArrayCheckMaxCap(LLArray* const p)
 }
 
 /*---------------------------------------------*\
- 获取index上一个index
+
  \*---------------------------------------------*/
 
 static uint LLArrayGetPreIndex(LLArray * const p, uint index)
@@ -227,7 +225,7 @@ static uint LLArrayGetPreIndex(LLArray * const p, uint index)
 	return  index;
 }
 /*---------------------------------------------*\
- 获取index的后一个index
+
 \*---------------------------------------------*/
 static uint LLArrayGetNextIndex(LLArray * const p, uint index)
 {
@@ -241,9 +239,9 @@ static uint LLArrayGetNextIndex(LLArray * const p, uint index)
 	return  index;
 }
 /*---------------------------------------------*\
- 向左移动数据函数
- num: 需要移动的数据个数
- start: 左边第一个的数据的下标
+move data to left
+ num: need move number of element
+ start: the index of the first element in left array
 \*---------------------------------------------*/
 static void LLArrayForward(LLArray* const p, uint num, uint start)
 {
@@ -256,9 +254,9 @@ static void LLArrayForward(LLArray* const p, uint num, uint start)
 }
 
 /*---------------------------------------------*\
- 向右边移动数据函数
- num: 需要移动的数据个数
- end: 右边最后一个数据的下标
+ move data to right
+ num: need move number of element
+ end: the index of the first element in right array
 \*---------------------------------------------*/
 static void LLArrayBackward(LLArray * const p, uint num, uint end)
 {
@@ -273,13 +271,11 @@ static void LLArrayBackward(LLArray * const p, uint num, uint end)
 extern void LLArrayDealloc(LLRefPtr const ptr)
 {
 	printf("LLArrayDealloc called\n");
-
-	LLRefDealloc(ptr);
 	LLArray * pArray = (LLArray *)ptr;
 	sint i;
 	if (pArray->objects != NULL) {
-		//释放LLArray中的成员对象
-		for (i = 0; i < pArray->objSize; i++) {
+		//release objects
+		for (i = 0; i<pArray->objSize; i++) {
 
 			LLRefPtr * obj = LLArrayGetObjectAt(pArray, i);
 			LLRefRelease(obj);
@@ -287,6 +283,7 @@ extern void LLArrayDealloc(LLRefPtr const ptr)
 		}
         Free(pArray->objects);
 	}
+	LLRefDealloc(ptr);
 }
 static void LLArrayPrint(LLRefPtr ptr)
 {

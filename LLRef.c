@@ -55,11 +55,10 @@ extern void LLRefPrint(LLRefPtr ptr)
         pRef->display(ptr);
     }
 }
-//释放前的的回调函数
+//
 extern void LLRefDealloc(LLRefPtr ptr)
 {
     fprintf(stdout, "LLRefDealloc called\n");
-    
 }
 static void LLRefPrintValues(LLRefPtr ptr)
 {

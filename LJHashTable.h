@@ -3,16 +3,19 @@
 #include <stdio.h>
 #include "LLTypes.h"
 #include "LLRef.h"
+typedef struct _HashNode	HashNode;
+typedef struct _BucketNode  BucketNode;
 /*链式散列表*/
 typedef struct _LJHashTable
 {
-
 	LLRef		ref;
-	uint        bucketsSize;    /* 桶个数 */
-	uint		objSize;		/* 现在的元素个数 */
-	LLRefPtr  * buckets;        /* 桶数组 */
-	 
+	uint        bucketsSize;    /* bucket size*/
+	uint		objSize;		/* element size */
+	BucketNode * buckets;        /*bucket  */ 
 }LJHashTable;
 extern LJHashTable * LJHashTableCreate(void);
-extern LLRefPtr LJHashTableInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr);
+extern LLRefPtr		 LJHashTableInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr);
+extern BOOL			 LJHashTableInsert(LJHashTable * const ptr, LLRefPtr anObject, const char * key);
+extern LLRefPtr		 LJHashTableObjectForKey(LJHashTable * const ptr, char * const key);
+extern void			 LJHashTableRemoveObjectForKey(LJHashTable * const ptr, char * const key);
 #endif 

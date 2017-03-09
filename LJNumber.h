@@ -11,11 +11,11 @@
 #include "LLRef.h"
 #include "LLTypes.h"
 
-typedef struct _LJString{
+typedef struct _LJNumber{
 	LLRef   ref;
-	uint    length;
-	char *  value;
-}LJString;
-extern LJString * LJStringCreateByString(const char * str);
-extern LLRefPtr LJStringInitByString(LLRefPtr const ptr, const char * str);
+	 
+	sint    val;
+}LJNumber;
+extern LJNumber * LJNumberCreateByNum(sint m);
+
 #endif /* LJString_h */

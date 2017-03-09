@@ -21,11 +21,6 @@ typedef struct _LLRef
     DisplayFunc display;
 }LLRef;
 
-
-
-
-
-
 extern  LLRef *     LLRefCreate(void);
 extern  LLRefPtr    LLRefInit(LLRefPtr ptr, DeallocFunc dallocFunPtr);
 extern  sint        LLRefRelease(LLRefPtr ptr);
