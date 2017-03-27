@@ -32,5 +32,5 @@ LLRefPtr LJNumberInitWithNumber(LLRefPtr ptr, sint m)
 }
 static void LJNumberDealloc(LLRefPtr const p)
 {
-    printf("%s called\n",__FUNCDNAME__);
+    printf("LJNumberDealloc called\n");
 }

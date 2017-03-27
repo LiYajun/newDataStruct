@@ -18,8 +18,8 @@ extern void LJHashTableDealloc(LLRefPtr const ptr);
 static uint getPrimeNumBy(uint min);
 static uint LJHashTableHash(LJHashTable * ptr, const char * key);
 static void LJHashTableReleaseBucket(BucketNode * bucketNode);
-static BOOL LJHashTableEqual(char * const key1, char * const key2);
-
+static BOOL LJHashTableEqual(const char *key1, const  char *key2);
+static BOOL isPrime(uint num);
 extern LJHashTable * LJHashTableCreate(void)
 {
 	LJHashTable * p = NULL;
@@ -93,7 +93,7 @@ extern BOOL LJHashTableInsert(LJHashTable * const ptr, LLRefPtr anObject, const 
 	node->next = firstNode;
 	return  YES;
 }
-extern LLRefPtr LJHashTableObjectForKey(LJHashTable * const ptr, char * const key)
+extern LLRefPtr LJHashTableObjectForKey(LJHashTable * const ptr, const char *  key)
 {
 	LJHashTable * p = (LJHashTable*)ptr;
 	uint index = LJHashTableHash(p, key);
@@ -107,7 +107,7 @@ extern LLRefPtr LJHashTableObjectForKey(LJHashTable * const ptr, char * const ke
 	}
 	return NULL;
 }
-extern void LJHashTableRemoveObjectForKey(LJHashTable * const ptr, char * const key)
+extern void LJHashTableRemoveObjectForKey(LJHashTable * const ptr, const char *  key)
 {
 	LJHashTable * p = (LJHashTable*)ptr;
 	uint index = LJHashTableHash(p, key);
@@ -160,7 +160,7 @@ static void LJHashTableReleaseBucket(BucketNode * bucketNode)
 		preNode = node;
 	}
 }
-static BOOL LJHashTableEqual(char * const key1, char * const key2)
+static BOOL LJHashTableEqual(const char * key1, const char * key2)
 {
 	return  StrnCmp(key1, key2, 0xFF) == 0 ? YES : NO;
 }

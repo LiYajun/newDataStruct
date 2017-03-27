@@ -16,6 +16,6 @@ typedef struct _LJHashTable
 extern LJHashTable * LJHashTableCreate(void);
 extern LLRefPtr		 LJHashTableInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr);
 extern BOOL			 LJHashTableInsert(LJHashTable * const ptr, LLRefPtr anObject, const char * key);
-extern LLRefPtr		 LJHashTableObjectForKey(LJHashTable * const ptr, char * const key);
-extern void			 LJHashTableRemoveObjectForKey(LJHashTable * const ptr, char * const key);
+extern LLRefPtr		 LJHashTableObjectForKey(LJHashTable * const ptr, const char *  key);
+extern void			 LJHashTableRemoveObjectForKey(LJHashTable * const ptr, const char *  key);
 #endif 
