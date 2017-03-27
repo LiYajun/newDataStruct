@@ -19,9 +19,9 @@
 #define  StrnCpy(dest,src, count)   strncpy(dest, src, count)
 #define  StrnCmp(dest,src, count)   strncmp(dest, src, count)
 #define  StrnLen(src, count)		strnlen(src, count)
-
-#define MemCpy(dst, rsc, count)     memcpy(dst, rsc, count)
-#define MemSet(dst, val, size)      memset(dst, val, size)
+#define  StrLen(src)                strlen(src)
+#define  MemCpy(dst, rsc, count)    memcpy(dst, rsc, count)
+#define  MemSet(dst, val, size)     memset(dst, val, size)
 
 #ifndef max
     #define max(a,b)   (a)>(b)? (a):(b)
