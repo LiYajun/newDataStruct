@@ -58,15 +58,51 @@ BOOL stackClear(NumStack * ptr)
 BOOL isPalindrome(const char * str)
 {
     uint i;
+	BOOL flag = YES;
     ulong len = StrLen(str);
+	
     NumStack * stack = createStack(100);
-    for(i =0; i<len/2; i++)
+    for(i =0; i<len; i++)
         stackPush(stack, str[i]);
- 
-    return  YES;
+
+	for (i = 0; i < len; i++)
+	{
+		char val1 = str[ i ];
+		char val2 = stackPop(stack);
+		if (val1 != val2) {
+			flag = NO;
+			break;
+		}
+	}
+	
+    return  flag;
 }
 
+typedef struct
+{
 
+	NumStack* stackIn;
+	NumStack* stackOut;
+}NumQueue;
+
+NumQueue * createQueue(sint num)
+{
+	NumQueue * ptr = Malloc(sizeof(NumQueue));
+	ptr->stackIn = createStack(num / 2);
+	ptr->stackOut = createStack(num / 2);
+	return  ptr;
+}
+
+BOOL appendTail(NumQueue * ptr, sint value)
+{
+	if (ptr->stackOut->num > 0)
+	{
+
+	}
+	BOOL flag = stackPush(ptr->stackIn, value);
+	return flag;
+}
+ 
 
 
 

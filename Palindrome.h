@@ -8,7 +8,7 @@
 
 #ifndef Palindrome_h
 #define Palindrome_h
-
-#include <stdio.h>
+#include "LLTypes.h"
+BOOL isPalindrome(const char * str);
 
 #endif /* Palindrome_h */

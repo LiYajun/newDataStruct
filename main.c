@@ -7,7 +7,7 @@
 #include "LJNumber.h"
 #include <signal.h>
 #include "LJHashTable.h"
-
+#include "Palindrome.h"
 #define Printf(value)  \
 printf( #value "\n"   )
 
@@ -87,15 +87,10 @@ void testLS()
     LLPrintf("////////////////////////////////////////////////");
 }
 #endif
-void sigHandler(int sig)
+
+void testHashTable()
 {
-	printf("test signal!");
-}
-int main(int argc, char * argv[])
-{
-    //signal(SIGABRT, &sigHandler);
-    //raise(SIGFPE);
-	LJHashTable * table = LJHashTableCreate( );
+	LJHashTable * table = LJHashTableCreate();
 	LJNumber * number = LJNumberCreateByNum(2);
 	uint retain = number->ref.retainCount;
 	LJHashTableInsert(table, number, "key");
@@ -107,8 +102,24 @@ int main(int argc, char * argv[])
 
 	LLRefRelease(number);
 
- 
+
 	printf("retain count = %d", number1->val);
+}
+void testPalindrome(char * str)
+{
+	if (str == NULL) return;
+	BOOL flag = isPalindrome(str);
+	printf(flag == YES ? "YES" : "NO");
+}
+void sigHandler(int sig)
+{
+	printf("test signal!");
+}
+int main(int argc, char * argv[])
+{
+    //signal(SIGABRT, &sigHandler);
+    //raise(SIGFPE);
+	testPalindrome("bacdf");
     getchar();
 
     return 0;
