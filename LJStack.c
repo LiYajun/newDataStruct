@@ -1,9 +1,5 @@
 #include "LJStack.h"
 
-
-
-
-
 extern LJStack * LJStackCreateByCap(sint cap)
 {
 	return LLArrayCreateByCap(cap);

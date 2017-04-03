@@ -8,6 +8,8 @@
 #include <signal.h>
 #include "LJHashTable.h"
 #include "Palindrome.h"
+#include "StackQueue.h"
+
 #define Printf(value)  \
 printf( #value "\n"   )
 
@@ -111,6 +113,19 @@ void testPalindrome(char * str)
 	BOOL flag = isPalindrome(str);
 	printf(flag == YES ? "YES" : "NO");
 }
+void testStackQueue()
+{
+	NumQueue * que = createQueue(100);
+	sint val[10] = { 0,1,2,3,4,5,6,7,8,9 };
+	for (uint i = 0; i < 10; i++)
+		appendTail(que, val[i]);
+	for (uint i = 0; i < 10; i++)
+	{
+		sint val = deleteHead(que);
+		printf("val:%d\n", val);
+	}
+	QueueClear(que);
+}
 void sigHandler(int sig)
 {
 	printf("test signal!");
@@ -119,7 +134,8 @@ int main(int argc, char * argv[])
 {
     //signal(SIGABRT, &sigHandler);
     //raise(SIGFPE);
-	testPalindrome("bacdf");
+	//testPalindrome("bacdf");
+	testStackQueue();
     getchar();
 
     return 0;

@@ -10,11 +10,7 @@
 #include "LLTypes.h"
 #include "mem_allocator.h"
 
-typedef  struct{
-    uint num;
-    uint maxNum;
-    sint * objects;
-}NumStack;
+
 NumStack * createStack(sint num)
 {
     NumStack * ptr = Malloc(sizeof(NumStack));
@@ -23,17 +19,17 @@ NumStack * createStack(sint num)
     
     ptr->objects = Malloc(sizeof(sint) * num);
     if(ptr->objects == NULL) return NULL;
-    ptr->num = 0;
+    ptr->curSize = 0;
     ptr->maxNum = num;
     return ptr;
 }
 BOOL stackPush(NumStack * ptr, sint value)
 {
     if(ptr ==NULL) return NO;
-    if(ptr->num >= ptr->maxNum) return  NO;
+    if(ptr->curSize >= ptr->maxNum) return  NO;
     
-    ptr->objects[ptr->num] = value;
-    ptr->num++;
+    ptr->objects[ptr->curSize] = value;
+    ptr->curSize++;
     return YES;
 }
 sint stackPop(NumStack * ptr)
@@ -42,17 +38,18 @@ sint stackPop(NumStack * ptr)
     
     if(ptr ==NULL)
         return INT32_MAX;
-    if(ptr->num == 0) return INT32_MAX;
+    if(ptr->curSize == 0) return INT32_MAX;
     
-    value = ptr->objects[ptr->num-1];
-    ptr->num--;
+    value = ptr->objects[ptr->curSize -1];
+    ptr->curSize--;
     return value;
     
 }
 BOOL stackClear(NumStack * ptr)
 {
     if(ptr == NULL) return NO;
-    ptr->num = 0;
+	Free(ptr->objects);
+	Free(ptr);
     return  YES;
 }
 BOOL isPalindrome(const char * str)
@@ -74,35 +71,9 @@ BOOL isPalindrome(const char * str)
 			break;
 		}
 	}
-	
+	stackClear(stack);
     return  flag;
 }
-
-typedef struct
-{
-
-	NumStack* stackIn;
-	NumStack* stackOut;
-}NumQueue;
-
-NumQueue * createQueue(sint num)
-{
-	NumQueue * ptr = Malloc(sizeof(NumQueue));
-	ptr->stackIn = createStack(num / 2);
-	ptr->stackOut = createStack(num / 2);
-	return  ptr;
-}
-
-BOOL appendTail(NumQueue * ptr, sint value)
-{
-	if (ptr->stackOut->num > 0)
-	{
-
-	}
-	BOOL flag = stackPush(ptr->stackIn, value);
-	return flag;
-}
- 
 
 
 
