@@ -6,7 +6,7 @@
 //  Copyright © 2017 andybain. All rights reserved.
 //
 
-#include "Palindrome.h"
+#include "NumStack.h"
 #include "LLTypes.h"
 #include "mem_allocator.h"
 
@@ -52,28 +52,7 @@ BOOL stackClear(NumStack * ptr)
 	Free(ptr);
     return  YES;
 }
-BOOL isPalindrome(const char * str)
-{
-    uint i;
-	BOOL flag = YES;
-    ulong len = StrLen(str);
-	
-    NumStack * stack = createStack(100);
-    for(i =0; i<len; i++)
-        stackPush(stack, str[i]);
 
-	for (i = 0; i < len; i++)
-	{
-		char val1 = str[ i ];
-		char val2 = stackPop(stack);
-		if (val1 != val2) {
-			flag = NO;
-			break;
-		}
-	}
-	stackClear(stack);
-    return  flag;
-}
 
 
 

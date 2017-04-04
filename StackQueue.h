@@ -1,7 +1,7 @@
 #ifndef StackQueue_H
 #define StackQueue_H
 #include "LLTypes.h"
-#include "Palindrome.h"
+#include "NumStack.h"
 
 typedef struct
 {

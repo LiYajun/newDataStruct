@@ -7,7 +7,7 @@
 #include "LJNumber.h"
 #include <signal.h>
 #include "LJHashTable.h"
-#include "Palindrome.h"
+#include "NumStack.h"
 #include "StackQueue.h"
 
 #define Printf(value)  \
@@ -107,11 +107,28 @@ void testHashTable()
 
 	printf("retain count = %d", number1->val);
 }
-void testPalindrome(char * str)
+ 
+BOOL testPalindrome(const char * str)
 {
-	if (str == NULL) return;
-	BOOL flag = isPalindrome(str);
-	printf(flag == YES ? "YES" : "NO");
+	uint i;
+	BOOL flag = YES;
+	ulong len = StrLen(str);
+
+	NumStack * stack = createStack(100);
+	for (i = 0; i<len; i++)
+		stackPush(stack, str[i]);
+
+	for (i = 0; i < len; i++)
+	{
+		char val1 = str[i];
+		char val2 = stackPop(stack);
+		if (val1 != val2) {
+			flag = NO;
+			break;
+		}
+	}
+	stackClear(stack);
+	return  flag;
 }
 void testStackQueue()
 {

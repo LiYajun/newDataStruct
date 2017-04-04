@@ -4,7 +4,7 @@
 #define LLTypes_h
 
 #define  INT32_MAX 2147483646
-typedef void *              object_p;
+
 
 typedef unsigned char       uint8;
 typedef signed   char       int8;

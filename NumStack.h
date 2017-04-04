@@ -6,15 +6,16 @@
 //  Copyright © 2017 andybain. All rights reserved.
 //
 
-#ifndef Palindrome_h
-#define Palindrome_h
+#ifndef NumStack_H
+#define NumStack_H
 #include "LLTypes.h"
 typedef  struct{
     uint curSize;
     uint maxNum;
     sint * objects;
 }NumStack;
-BOOL isPalindrome(const char * str);
+
+NumStack * createStack(sint num);
 BOOL stackPush(NumStack * ptr, sint value);
 sint stackPop(NumStack * ptr);
 BOOL stackClear(NumStack * ptr);
