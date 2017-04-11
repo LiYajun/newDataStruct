@@ -9,7 +9,7 @@
 #include "LJHashTable.h"
 #include "NumStack.h"
 #include "StackQueue.h"
-
+#include "LJBigNum.h"
 #define Printf(value)  \
 printf( #value "\n"   )
 
@@ -33,6 +33,7 @@ void testString()
 	puts(s);
 	printf("%s", key2);
 }
+
 void testLYJ()
 {
     LLPrintf("//////////////////////--LYJ--///////////////////");
@@ -143,6 +144,15 @@ void testStackQueue()
 	}
 	QueueClear(que);
 }
+void testBigNum()
+{
+	LJBigNum * bigNum1 = LJBigNumCreteByStr("9876543210"); 
+	bigNum1->sign = Sign_Positive;
+	LJBigNum * bigNum2 = LJBigNumCreteByStr("9876543210");
+	bigNum2->sign = Sign_Positive;
+	LJBigNumAddOther(bigNum1, bigNum2);
+	LJBigNumPrintValues(bigNum1);
+}
 void sigHandler(int sig)
 {
 	printf("test signal!");
@@ -152,7 +162,8 @@ int main(int argc, char * argv[])
     //signal(SIGABRT, &sigHandler);
     //raise(SIGFPE);
 	//testPalindrome("bacdf");
-	testStackQueue();
+	//testStackQueue();
+	testBigNum();
     getchar();
 
     return 0;
