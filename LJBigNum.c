@@ -168,9 +168,10 @@ static void LJBigNumAbsValuesMinus(LJBigNum * ptr,  LJBigNum * other)
 	{
 		sign = ptr->sign;
 		LJBigNumZero(ptr);
+        ptr->curSize = 1;
+        ptr->sign = Sign_Positive;
 		return;
 	}
-	//uint size = (ptr->curSize > other->curSize ? ptr->curSize : other->curSize);
 	uint i = 0;
 	int8 isBorrow = 0;
 	uint8 val = 0;
@@ -180,7 +181,8 @@ static void LJBigNumAbsValuesMinus(LJBigNum * ptr,  LJBigNum * other)
 		val = (isBorrow == -1 ? val + 10 : val);
 		ptr->values[i] = val;
 	}
-	ptr->curSize = LJBigNumCalcNewCurSize(ptr);
+    ptr->curSize = size;
+    ptr->curSize = LJBigNumCalcNewCurSize(ptr);
 	ptr->sign = sign;
 }
 
@@ -246,8 +248,13 @@ extern void LJBigNumPrintValues(LJBigNum *ptr)
 	char * str = Malloc(sizeof(char) *ptr->curSize + 1);
 	for (int i = 0; i < ptr->curSize; i++)
 		printf("%d", ptr->values[ptr->curSize - i - 1]);
-	StrnCpy(str, ptr->values +'0', ptr->curSize);
+    for(uint i=0; i<ptr->curSize; i++){
+        str[i] = ptr->values[ptr->curSize - i -1] +'0';
+    }
 	str[ptr->curSize] ='\0';
-	fprintf(stdout, "\nbigNum:%s", str);
+    if(ptr->sign == Sign_Positive)
+        fprintf(stdout, "\nbigNum:%s", str);
+    else if(ptr->sign == Sign_negative)
+        fprintf(stdout, "\nbigNum:-%s", str);
 	Free(str);
 }

@@ -146,10 +146,10 @@ void testStackQueue()
 }
 void testBigNum()
 {
-	LJBigNum * bigNum1 = LJBigNumCreteByStr("9876543210"); 
+	LJBigNum * bigNum1 = LJBigNumCreteByStr(    "9876543210");
 	bigNum1->sign = Sign_Positive;
-	LJBigNum * bigNum2 = LJBigNumCreteByStr("9876543210");
-	bigNum2->sign = Sign_Positive;
+	LJBigNum * bigNum2 = LJBigNumCreteByStr("98459876543210");
+	bigNum2->sign = Sign_negative;
 	LJBigNumAddOther(bigNum1, bigNum2);
 	LJBigNumPrintValues(bigNum1);
 }
