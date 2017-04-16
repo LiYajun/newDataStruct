@@ -9,7 +9,7 @@ static void			LJBigNumAbsValuesMinus(LJBigNum * ptr, LJBigNum * other);
 static void		    LJBigNumAbsValuesAdd(LJBigNum * ptr, LJBigNum * other);
 static BigNumOrder  LJBigNumAbsCompare(LJBigNum * ptr, LJBigNum * other);
 static LLRefPtr		LJBigNumInitByStr(LJBigNum * ptr,const char * str);
-static BOOL			LJBigNumSetNum(LJBigNum * ptr, const char * str, uint strSize);
+ 
 
 
 extern LJBigNum * LJBigNumCreateBy(uint cap)
@@ -48,12 +48,23 @@ static LLRefPtr LJBigNumInitByStr(LJBigNum * ptr,  const char * str)
 	}
 	return p;
 }
-static BOOL LJBigNumSetNum(LJBigNum * ptr, const char * str, uint strSize)
+extern BOOL LJBigNumSetNum(LJBigNum * ptr, const char * str, uint strSize)
 {
-	if (ptr->maxCap < strSize) return NO;
 	uint i = 0;
-	for (; i < strSize; i++) {
-		int8 val = str[strSize - i - 1] - '0';
+	int8 val = 0;
+	int8 *oldPtr = NULL, *newPtr = NULL;
+	uint newCap = 0;
+	if (ptr->maxCap < strSize) {
+		oldPtr = ptr->values;
+		newCap = strSize * 1.414;
+		newPtr = Calloc(newCap, sizeof(int8));
+		if (newPtr == NULL) return NO;
+		ptr->values = newPtr;
+		Free(oldPtr);
+		return NO;
+	}
+	for (i=0; i < strSize; i++) {
+		val = str[strSize - i - 1] - '0';
 		ptr->values[i] = val;
 	}
 	ptr->curSize = strSize;
@@ -74,15 +85,24 @@ static LLRefPtr LJBigNumInitByCap(LJBigNum * ptr, uint cap)
 	}
 	return p;
 }
+static BOOL LJBigNumReCap(LJBigNum * ptr, uint newCap)
+{
+	int8 *oldPtr = ptr->values;
+	int8 *newPtr = Calloc(newCap, sizeof(int8));
+	if (newPtr == NULL) return NO;
+	ptr->values = newPtr;
+	Free(oldPtr);
+	return YES;
+}
 static BOOL LJBigNumCheckMaxCap(LJBigNum * ptr, uint needSize)
 {
-	 
 	uint i;
 	if (ptr->maxCap >= needSize)
 		return YES;
 	uint newSize = (uint)(1.414 * needSize);
 	int8 * oldPtr = ptr->values;
 	int8 * newPtr = Calloc(newSize, sizeof(int8));
+ 
 	if (newPtr == NULL)
 		return NO;
 	for (i = 0; i < ptr->curSize; i++) {
@@ -229,9 +249,15 @@ extern void LJBigNumAddOther(LJBigNum * ptr, LJBigNum * other)
 	}
 }
 
-extern void LJBigNumMinusOther(LJBigNum * ptr, LJBigNum * otherBigNum)
+extern void LJBigNumMinusOther(LJBigNum * ptr, LJBigNum * other)
 {
-
+	if (ptr->sign != other->sign) {
+		LJBigNumAbsValuesAdd(ptr, other);
+	}
+	else 
+	{
+		LJBigNumAbsValuesMinus(ptr, other);
+	}
 }
 extern void	LJBigNumDealloc(LLRefPtr  ptr)
 {

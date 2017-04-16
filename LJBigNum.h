@@ -25,6 +25,7 @@ typedef struct _LJBigNum{
 
 extern LJBigNum * LJBigNumCreateBy(uint cap);
 extern LJBigNum * LJBigNumCreteByStr(const char * str);
+extern BOOL		  LJBigNumSetNum(LJBigNum * ptr, const char * str, uint strSize);
 extern void		  LJBigNumAddOther(LJBigNum * ptr, LJBigNum * otherBigNum);
 extern void       LJBigNumMinusOther(LJBigNum * ptr, LJBigNum * otherBigNum);
 extern void		  LJBigNumDealloc(LLRefPtr const ptr);

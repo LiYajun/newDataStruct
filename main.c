@@ -147,10 +147,13 @@ void testStackQueue()
 void testBigNum()
 {
 	LJBigNum * bigNum1 = LJBigNumCreteByStr(    "9876543210");
-	bigNum1->sign = Sign_Positive;
+	bigNum1->sign = Sign_negative;
 	LJBigNum * bigNum2 = LJBigNumCreteByStr("98459876543210");
-	bigNum2->sign = Sign_negative;
+	bigNum2->sign = Sign_Positive;
 	LJBigNumAddOther(bigNum1, bigNum2);
+	char * newStr = "12343456789";
+	uint  len = StrLen(newStr);
+	LJBigNumSetNum(bigNum1, newStr, len);
 	LJBigNumPrintValues(bigNum1);
 }
 void sigHandler(int sig)
