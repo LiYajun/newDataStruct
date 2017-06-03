@@ -12,6 +12,7 @@
 
 static void LJNumberDealloc(LLRefPtr const p);
 static LLRefPtr LJNumberInitWithNumber(LLRefPtr  ptr, sint m);
+
 extern LJNumber * LJNumberCreateByNum(sint m)
 {
 	LJNumber * p = NULL;

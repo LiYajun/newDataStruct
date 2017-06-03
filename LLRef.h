@@ -18,7 +18,6 @@ typedef struct _LLRef
 {
 	sint  retainCount;
     DeallocFunc dealloc;
-    DisplayFunc display;
 }LLRef;
 
 extern  LLRef *     LLRefCreate(void);

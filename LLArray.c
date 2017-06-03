@@ -7,7 +7,7 @@
 #include "mem_allocator.h"
 #include <assert.h>
 
-#define  INIT_CAP    8          
+#define  INIT_CAP    8
 
 static LLRefPtr LLArrayInitByCap(LLArray * const p, uint initCap);
 
@@ -63,8 +63,6 @@ extern LLRefPtr LLArrayInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr)
 		p->objSize = 0;
 		p->headIndex = 0;
 		p->tailNextIndex = p->objSize;
-        ((LLRef*)p)->display = NULL;
-        ((LLRef*)p)->display = LLArrayPrint;
 	}
 	return p;
 }
@@ -93,7 +91,7 @@ extern void LLArrayAddObject(LLArray* const p, LLRefPtr anObjct)
 	LLArrayInsertAt(p, anObjct, p->objSize);
 }
 /*---------------------------------------------*\
- 
+
 \*---------------------------------------------*/
 extern void LLArrayInsertAt(LLArray * const p, LLRefPtr anObject, uint index)
 {
@@ -111,11 +109,11 @@ extern void LLArrayInsertAt(LLArray * const p, LLRefPtr anObject, uint index)
 		return;
 	}
 
-	 
+
 	realIndex = (p->headIndex + index) % p->maxCap;
 
 	if (index < (p->objSize + 1) / 2) {
-		realIndex = LLArrayGetPreIndex(p, realIndex);  
+		realIndex = LLArrayGetPreIndex(p, realIndex);
 		LLArrayForward(p, index, p->headIndex);
 		p->objects[realIndex] = object;
 		p->headIndex = LLArrayGetPreIndex(p, p->headIndex);
@@ -131,7 +129,7 @@ extern void LLArrayInsertAt(LLArray * const p, LLRefPtr anObject, uint index)
 	p->objSize++;
 }
 /*---------------------------------------------*\
-  
+
 \*---------------------------------------------*/
 extern BOOL LLArrayRemoveAt(LLArray * const p, uint index)
 {
@@ -162,7 +160,7 @@ extern BOOL LLArrayRemoveAt(LLArray * const p, uint index)
 	return YES;
 }
 /*---------------------------------------------*\
- 
+
 \*---------------------------------------------*/
 extern LLRefPtr LLArrayGetObjectAt(LLArray* const p, uint index)
 {
@@ -177,7 +175,7 @@ extern LLRefPtr LLArrayGetObjectAt(LLArray* const p, uint index)
 }
 
 /*---------------------------------------------*\
- 
+
 \*---------------------------------------------*/
 static BOOL LLArrayCheckMaxCap(LLArray* const p)
 {
@@ -185,9 +183,9 @@ static BOOL LLArrayCheckMaxCap(LLArray* const p)
 	LLRefPtr * oldP = NULL;
 	uint realIndex = 0;
 	uint i;
-	// 
+	//
 	if (p->objSize >= p->maxCap) {
-		//new = Realloc(p->objects, sizeof(object_p)*2*p->max_cap); // 
+		//new = Realloc(p->objects, sizeof(object_p)*2*p->max_cap); //
 		oldP = p->objects;
 		newP = Malloc(sizeof(LLRefPtr) * 2 * p->maxCap);//resize to 2*maxCap
 
@@ -288,7 +286,7 @@ extern void LLArrayDealloc(LLRefPtr const ptr)
 static void LLArrayPrint(LLRefPtr ptr)
 {
     LLArray * p = (LLArray*) ptr;
-    
+
     fprintf(stdout,
             "print values of LLArray:\n"
             "objSize:         %d\n"

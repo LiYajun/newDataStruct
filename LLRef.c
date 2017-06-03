@@ -18,7 +18,7 @@ extern LLRefPtr LLRefInit(LLRefPtr ptr, DeallocFunc deallocFunPtr)
 	LLRef * pRef = (LLRef*)ptr;
 	pRef->retainCount = 1;
     pRef->dealloc     = deallocFunPtr;
-    pRef->display     = NULL;
+
     return ptr;
 }
 
@@ -30,11 +30,11 @@ extern sint LLRefRelease(LLRefPtr ptr)
     pRef->retainCount--;
 	sint count = pRef->retainCount;
 
-	if (pRef->retainCount == 0) 
+	if (pRef->retainCount == 0)
     {
         if(pRef->dealloc!=NULL)
             pRef->dealloc(pRef);
-        
+
 		Free(pRef);
 	}
 
@@ -47,15 +47,8 @@ extern sint LLRefRetain(LLRefPtr ptr)
 	pRef->retainCount++;
 	return pRef->retainCount;
 }
-extern void LLRefPrint(LLRefPtr ptr)
-{
-    LLRef *pRef = (LLRef *)ptr;
-    
-    if (pRef->display) {
-        pRef->display(ptr);
-    }
-}
-//
+
+
 extern void LLRefDealloc(LLRefPtr ptr)
 {
     fprintf(stdout, "LLRefDealloc called\n");

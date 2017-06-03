@@ -10,6 +10,7 @@
 #include "NumStack.h"
 #include "StackQueue.h"
 #include "LJBigNum.h"
+
 #define Printf(value)  \
 printf( #value "\n"   )
 
@@ -108,7 +109,7 @@ void testHashTable()
 
 	printf("retain count = %d", number1->val);
 }
- 
+
 BOOL testPalindrome(const char * str)
 {
 	uint i;

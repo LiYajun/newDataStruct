@@ -26,12 +26,12 @@ LLRefPtr LJStringInitByString(LLRefPtr const ptr, const char * str)
 {
 	LJString * p = LLRefInit(ptr, LJStringDealloc);
 	if (p != NULL) {
-		 
-		
+
+
 	}
 	return p;
 }
 static void LJStringDealloc(void * const p)
 {
-    printf("%s called\n",__FUNCDNAME__);
+    //printf("%s called\n",__FUNCDNAME__);
 }
