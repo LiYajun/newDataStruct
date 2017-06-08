@@ -10,11 +10,12 @@ typedef struct _LinkNode LinkNode;
 typedef struct _LJLinkList
 {
 	LLRef  ref;
-	uint   curSize;
+	uint   objSize;
     LinkNode * head;
 }LJLinkList;
 
 extern LJLinkList * LJLinkListCreate(void);
 extern LLRefPtr     LJLinkListInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr);
+extern void LJLinkListInsertAtHead(LJLinkList * const p, LinkNode * node);
 extern void LJLinkListDealloc(LLRefPtr const ptr);
 #endif

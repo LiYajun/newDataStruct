@@ -32,7 +32,7 @@ extern LJHashTable * LJHashTableCreate(void)
 extern LLRefPtr LJHashTableInitWithSize(LLRefPtr const ptr, uint size)
 {
 	LJHashTable * p = LLRefInit(ptr, LJHashTableDealloc);
-	if (p != NULL) { 
+	if (p != NULL) {
 		p->bucketsSize = getPrimeNumBy(size);  // get a prime number close to size, prime number >size
 		p->buckets = (BucketNode*)Calloc(p->bucketsSize, sizeof(BucketNode));
 		if (p->buckets == NULL) {
@@ -71,12 +71,12 @@ extern BOOL LJHashTableInsert(LJHashTable * const ptr, LLRefPtr anObject, const 
 				LLRefRelease(node->object);
 				node->object = anObject;
 				LLRefRetain(anObject);
-				p->objSize++;
+				//p->objSize++;
 				return  YES ;
 		}
 		node = node->next;
 	}
-	//head insert 
+	//head insert
 	node = Malloc(sizeof(HashNode));
 	if (node == NULL) return NO;
 	node->key = Malloc(sizeof(char)*(length + 1));
@@ -113,7 +113,7 @@ extern void LJHashTableRemoveObjectForKey(LJHashTable * const ptr, const char * 
 	uint index = LJHashTableHash(p, key);
 	BucketNode * bucketNode = &p->buckets[index];
 	HashNode * node = bucketNode->next;
- 
+
 	if (node == NULL) return ;
 	int i = 0;
 	HashNode * preNode = node;
@@ -121,7 +121,7 @@ extern void LJHashTableRemoveObjectForKey(LJHashTable * const ptr, const char * 
 		if (StrnCmp(node->key, key, 0xFF) == 0) {
 			LLRefRelease(node->object);
 			if (i == 0) {
-				bucketNode->next = node->next;				
+				bucketNode->next = node->next;
 				Free(node);
 			}else {
 				preNode->next = node->next;
@@ -139,14 +139,14 @@ extern void LJHashTableDealloc(LLRefPtr const ptr)
 {
 	printf("LJHashTableDealloc called\n");
 	LJHashTable* p  = (LJHashTable *)ptr;
-	//clear memory	
+	//clear memory
 	for (uint i = 0; i < p->bucketsSize; i++) {
 		BucketNode * bucket = &p->buckets[i];
 		LJHashTableReleaseBucket(bucket);
 	}
 	Free(p->buckets);
 	LLRefDealloc(ptr);
- 
+
 }
 static void LJHashTableReleaseBucket(BucketNode * bucketNode)
 {
@@ -181,7 +181,7 @@ static uint getPrimeNumBy(uint min)
 		}
 	}
 }
- 
+
 static BOOL isPrime(uint num) {
 	for (uint j = 2; j * j <= num; j++) {
 		if (num % j == 0) {
