@@ -33,11 +33,11 @@ extern LJBigNum * LJBigNumCreteByStr(const char * str)
 }
 static LLRefPtr LJBigNumInitByStr(LJBigNum * ptr,  const char * str)
 {
-	uint i = 0;
+	//uint i = 0;
 	LJBigNum * p = (LJBigNum*)LLRefInit(ptr, LJBigNumDealloc);
 	if (p != NULL) {
-		uint size = StrLen(str);
-		uint cap =  size + 10; // more than 
+		uint size = (uint)StrLen(str);
+		uint cap =  size + 10; // more than
 		p->values = Calloc(cap, sizeof(int8));
 		if (p->values == NULL) {
 			Free(p);

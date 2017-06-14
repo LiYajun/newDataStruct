@@ -1,5 +1,8 @@
 
+
 #include <stdio.h>
+#include "LJLinkList.h"
+
 #include "LLArray.h"
 #include "LLTArray.h"
 #include <string.h>
@@ -22,6 +25,8 @@ printf( #value "\n"   )
 #define LLPrintf(a,...)  printf(a"\n",##__VA_ARGS__)
 #define PP(a, ...)  printf(a,  __VA_ARGS__)
 #define ppt(a,b)    printf(a, ##b)
+
+
 
 void testString()
 {
@@ -106,7 +111,7 @@ void testHashTable()
 
 	LLRefRelease(number);
 
-
+    LLRefRelease(table);
 	printf("retain count = %d", number1->val);
 }
 
@@ -156,6 +161,26 @@ void testBigNum()
 	uint  len = StrLen(newStr);
 	LJBigNumSetNum(bigNum1, newStr, len);
 	LJBigNumPrintValues(bigNum1);
+    LLRefRelease(bigNum1);
+    LLRefRelease(bigNum2);
+}
+void testLJLinkList()
+{
+    LJLinkList * linkList = LJLinkListCreate();
+    
+    LJNumber * num1 = LJNumberCreateByNum(1234);
+    LJNumber * num2 = LJNumberCreateByNum(2234);
+    LJLinkListAddObj(linkList, num1);
+    LJLinkListAddObj(linkList, num2);
+    LJNumber * temp = LJLinkListGetHeadObj(linkList);
+    printf("head node num value:%d\n", temp->val);
+    LLRefRelease(num1);
+    LLRefRelease(num2);
+    printf("num1 count:%d\n", num1->ref.retainCount);
+    printf("num2 count:%d\n", num2->ref.retainCount);
+    LLRefRelease(linkList);
+    printf("num1 count:%d\n", num1->ref.retainCount);
+    printf("num2 count:%d\n", num2->ref.retainCount);
 }
 void sigHandler(int sig)
 {
@@ -167,7 +192,8 @@ int main(int argc, char * argv[])
     //raise(SIGFPE);
 	//testPalindrome("bacdf");
 	//testStackQueue();
-	testBigNum();
+	//testBigNum();
+    testLJLinkList();
     getchar();
 
     return 0;

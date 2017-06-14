@@ -16,6 +16,7 @@ typedef struct _LJLinkList
 
 extern LJLinkList * LJLinkListCreate(void);
 extern LLRefPtr     LJLinkListInit(LLRefPtr const ptr, DeallocFunc deallocFunPtr);
-extern void LJLinkListInsertAtHead(LJLinkList * const p, LinkNode * node);
-extern void LJLinkListDealloc(LLRefPtr const ptr);
+extern BOOL         LJLinkListAddObj(LJLinkList * const p, LLRefPtr obj);
+extern LLRefPtr     LJLinkListGetHeadObj(LJLinkList * const p);
+extern void         LJLinkListDealloc(LLRefPtr const ptr);
 #endif

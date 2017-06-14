@@ -13,7 +13,6 @@
 
 typedef struct _LJNumber{
 	LLRef   ref;
-	 
 	sint    val;
 }LJNumber;
 extern LJNumber * LJNumberCreateByNum(sint m);

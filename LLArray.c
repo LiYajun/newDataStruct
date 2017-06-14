@@ -135,7 +135,6 @@ extern BOOL LLArrayRemoveAt(LLArray * const p, uint index)
 {
 	uint realIndex = 0;
 	LLRefPtr obj = NULL;
-	//assert(p != NULL);
 
 	if (index >= p->objSize) {
 		fprintf(stderr, "index out of array range! del index form 0  to objsize -1!");
